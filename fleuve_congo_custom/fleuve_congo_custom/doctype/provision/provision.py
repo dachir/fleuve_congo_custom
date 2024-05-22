@@ -6,6 +6,7 @@ from frappe.model.document import Document
 
 class Provision(Document):
 	def after_save(self):
+		frappe.throw(self.name)
 		if not self.details:
 			frappe.db.sql(
 				"""
