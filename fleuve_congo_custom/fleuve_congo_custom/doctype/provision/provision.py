@@ -54,9 +54,9 @@ class Provision(Document):
 						tabEmployee e 
 						CROSS JOIN `tabPayroll Period` p INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
 					WHERE 
-						YEAR(p.end_date) = {self.fiscal_year} 
+						YEAR(p.end_date) = %s
 				) AS t  
 				WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
-				"""
+				""", (self.fiscal_year)
 			)
 
