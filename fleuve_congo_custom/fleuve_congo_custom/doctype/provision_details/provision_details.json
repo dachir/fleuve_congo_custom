@@ -68,8 +68,9 @@
   },
   {
    "fieldname": "employee",
-   "fieldtype": "Date",
-   "label": "Employee"
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
   },
   {
    "fieldname": "new_rate",
@@ -116,7 +117,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-22 18:14:25.851356",
+ "modified": "2024-05-22 18:29:46.330225",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision Details",
