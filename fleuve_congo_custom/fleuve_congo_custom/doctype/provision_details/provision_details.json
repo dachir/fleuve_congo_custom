@@ -22,7 +22,8 @@
   "salaire",
   "start_period_days",
   "years_difference",
-  "year_div_5"
+  "year_div_5",
+  "categorie"
  ],
  "fields": [
   {
@@ -104,12 +105,18 @@
    "fieldname": "year_div_5",
    "fieldtype": "Int",
    "label": "Year Div 5"
+  },
+  {
+   "fieldname": "categorie",
+   "fieldtype": "Link",
+   "label": "Categorie",
+   "options": "Employee Category Details"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-22 15:54:01.602333",
+ "modified": "2024-05-22 18:14:25.851356",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision Details",
