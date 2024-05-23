@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 
 class Provision(Document):
-	def after_save(self):
+	def add_details(self):
 		result = frappe.db.sql("""SELECT COUNT(*) as nb  FROM tabEmployee""", as_dict=1)
 		e = len(str(result[0].nb))
 		cpt = self.fiscal_year * 10**e
@@ -65,4 +65,12 @@ class Provision(Document):
 				WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 				""", {"parent":self.name,"end_date":self.fiscal_year, "start":cpt}
 			)
+
+
+	def after_save(self):
+		self.add_details()
+
+	def after_insert(self):
+		self.add_details()
+		
 
