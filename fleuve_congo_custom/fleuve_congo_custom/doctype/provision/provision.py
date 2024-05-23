@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 
 class Provision(Document):
-	def before_save(self):
+	def after_save(self):
 		result = frappe.db.sql("""SELECT COUNT(*) as nb  FROM tabEmployee""", as_dict=1)
 		e = len(str(result[0].nb))
 		cpt = self.fiscal_year * 10**e
