@@ -56,7 +56,7 @@ class Provision(Document):
 						END AS years_div_5,
 						se.categorie, se.date_debut, se.salaire, IFNULL(se.date_fin, DATE_FORMAT(NOW(),'%%Y-12-31'))  AS date_fin
 					FROM 
-						 (SELECT @rownum := start) r,
+						 (SELECT @rownum := %(start)s) r,
 						tabEmployee e 
 						CROSS JOIN `tabPayroll Period` p INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
 					WHERE 
