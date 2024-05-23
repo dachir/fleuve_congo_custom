@@ -6,14 +6,19 @@ from frappe.model.document import Document
 
 class Provision(Document):
 	def before_save(self):
+		result = frappe.db.sql("""SELECT COUNT(*) as nb  FROM tabEmployee""", as_dict=1)
+		e = len(str(result[0].nb))
+		cpt = self.fiscal_year * 10**e
+
 		if not self.details:
 			frappe.db.sql(
 				"""
-				INSERT INTO `tabProvision Details`(annee, mois, periode_date_begin, periode_date_end, date_join, date_begin, date_end, date_quit, employee, new_rate, period_days, rate, salaire, start_period_days, years_difference, year_div_5, categorie, parent, parentfield, parenttype)
-				SELECT t.annee, t.mois, t.date_begin, t.date_end, t.date_join, t.date_debut, t.date_fin, t.date_quit, t.employee,
+				INSERT INTO `tabProvision Details`(name, annee, mois, periode_date_begin, periode_date_end, date_join, date_begin, date_end, date_quit, employee, new_rate, period_days, rate, salaire, start_period_days, years_difference, year_div_5, categorie, parent, parentfield, parenttype)
+				SELECT t.rownum, t.annee, t.mois, t.date_begin, t.date_end, t.date_join, t.date_debut, t.date_fin, t.date_quit, t.employee,
 					(t.start_period_day / t.period_day * t.rate) + t.years_div_5 AS new_rate, t.period_day, t.rate, t.salaire, t.start_period_day, t.years_difference, t.years_div_5, t.categorie, %(parent)s AS parent, 'details' AS parentfield, 'Provision' AS parenttype
 				FROM (
 					SELECT 
+						@rownum := @rownum + 1 AS rownum,
 						e.name as employee, 
 						YEAR(p.end_date) AS Annee, 
 						MONTH(p.end_date) AS Mois,
@@ -51,12 +56,13 @@ class Provision(Document):
 						END AS years_div_5,
 						se.categorie, se.date_debut, se.salaire, IFNULL(se.date_fin, DATE_FORMAT(NOW(),'%%Y-12-31'))  AS date_fin
 					FROM 
+						 (SELECT @rownum := start) r,
 						tabEmployee e 
 						CROSS JOIN `tabPayroll Period` p INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
 					WHERE 
 						YEAR(p.end_date) = %(end_date)s
 				) AS t  
 				WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
-				""", {"parent":self.name,"end_date":self.fiscal_year}
+				""", {"parent":self.name,"end_date":self.fiscal_year, "start":cpt}
 			)
 
