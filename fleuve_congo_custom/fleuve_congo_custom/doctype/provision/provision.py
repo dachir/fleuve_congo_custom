@@ -10,11 +10,11 @@ class Provision(Document):
 			frappe.db.sql(
 				"""
 				INSERT INTO `tabProvision Details`(annee, mois, periode_date_begin, periode_date_end, date_join, date_begin, date_end, date_quit, employee, new_rate, period_days, rate, salaire, start_period_days, years_difference, year_div_5, categorie, parent, parentfield, parenttype)
-				SELECT t.annee, t.mois, t.date_begin, t.date_end, t.date_join, t.date_debut, t.date_fin, t.date_quit, t.name,
+				SELECT t.annee, t.mois, t.date_begin, t.date_end, t.date_join, t.date_debut, t.date_fin, t.date_quit, t.employee,
 					(t.start_period_day / t.period_day * t.rate) + t.years_div_5 AS new_rate, t.period_day, t.rate, t.salaire, t.start_period_day, t.years_difference, t.years_div_5, t.categorie, %(parent)s AS parent, 'details' AS parentfield, 'Provision' AS parenttype
 				FROM (
 					SELECT 
-						e.name, 
+						e.name as employee, 
 						YEAR(p.end_date) AS Annee, 
 						MONTH(p.end_date) AS Mois,
 						CASE 
