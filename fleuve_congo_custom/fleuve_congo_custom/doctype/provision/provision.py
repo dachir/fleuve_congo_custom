@@ -72,11 +72,10 @@ class Provision(Document):
 						"details",
 						{
 							"annee": i.annee,
-							"mois": i.mois
+							"mois": i.mois,
 							"periode_date_begin": i.date_begin,
 							"periode_date_end": i.date_end,
 							"date_join": i.date_join,
-							"mois": i.mois
 							"date_begin": i.date_begin,
 							"periode_date_end": i.date_end,
 							"date_begin": i.date_debut,
