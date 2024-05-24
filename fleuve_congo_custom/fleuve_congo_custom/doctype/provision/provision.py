@@ -83,13 +83,13 @@ class Provision(Document):
 							"date_quit": i.date_quit,
 							"employee": i.employee,
 							"new_rate": i.new_rate,
-							"period_days": i.period_day
+							"period_days": i.period_day,
 							"rate": i.rate,
 							"salaire": i.salaire,
 							"start_period_days": i.start_period_day,
 							"years_difference": i.years_difference,
 							"year_div_5": i.years_div_5,
-							"categorie": i.categorie
+							"categorie": i.categorie,
 						},
 					)
 				
