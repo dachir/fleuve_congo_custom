@@ -14,7 +14,7 @@
   "fiscal_year",
   "end_date",
   "section_break_j868h",
-  "details"
+  "ratio"
  ],
  "fields": [
   {
@@ -50,15 +50,15 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "details",
+   "fieldname": "ratio",
    "fieldtype": "Table",
-   "label": "Details",
-   "options": "Provision Details"
+   "label": "Ratio",
+   "options": "Provision Ratio"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-22 16:52:05.839948",
+ "modified": "2024-05-24 12:41:04.211417",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision",
