@@ -147,8 +147,8 @@ class Provision(Document):
 					}
 				)
 
-	def before_save(self):
-		self.add_details()
+	#def before_save(self):
+	#	self.add_details()
 				
 
 
