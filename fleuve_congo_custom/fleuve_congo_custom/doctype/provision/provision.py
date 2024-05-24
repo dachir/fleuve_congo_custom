@@ -13,7 +13,7 @@ class Provision(Document):
 		#cpt = self.fiscal_year * 10**e
 		self.ratio.clear()
 
-		if not self.details:
+		if not self.ratio:
 			liste = frappe.db.sql(
 				"""
 				SELECT y.*,
