@@ -64,11 +64,11 @@ class Provision(Document):
 						YEAR(p.end_date) = %(end_date)s
 				) AS t  
 				WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
-				""", {"parent":self.name,"end_date":self.fiscal_year}
+				""", {"parent":self.name,"end_date":self.fiscal_year}, as_dict=1
 			)
 
 			for i in liste:
-				frappe.throw(str(i))
+				#frappe.throw(str(i))
 				self.append(
 						"details",
 						{
