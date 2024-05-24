@@ -16,14 +16,14 @@ class Provision(Document):
 		if not self.details:
 			liste = frappe.db.sql(
 				"""
-				
 				SELECT t.annee, t.mois, t.date_begin, t.date_end, t.date_join, t.date_debut, t.date_fin, t.date_quit, t.employee,
-					(t.start_period_day / t.period_day * t.rate) + t.years_div_5 AS new_rate, t.period_day, t.rate, t.salaire, t.start_period_day, t.years_difference, t.years_div_5, t.categorie, %(parent)s AS parent, 'details' AS parentfield, 'Provision' AS parenttype
+					(t.start_period_day / t.period_day * t.rate) + t.years_div_5 AS new_rate, 
+					t.period_day, t.rate, t.salaire, t.start_period_day, t.years_difference, t.years_div_5, t.categorie
 				FROM (
 					SELECT 
 						e.name as employee, 
-						YEAR(p.end_date) AS Annee, 
-						MONTH(p.end_date) AS Mois,
+						YEAR(p.end_date) AS annee, 
+						MONTH(p.end_date) AS mois,
 						CASE 
 							WHEN p.end_date >= e.date_of_joining THEN  
 								CASE 
@@ -64,7 +64,7 @@ class Provision(Document):
 						YEAR(p.end_date) = %(end_date)s
 				) AS t  
 				WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
-				""", {"parent":self.name,"end_date":self.fiscal_year}, as_dict=1
+				""", {"end_date":self.fiscal_year}, as_dict=1
 			)
 
 			for i in liste:
