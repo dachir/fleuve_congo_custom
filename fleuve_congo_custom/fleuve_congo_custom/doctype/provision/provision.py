@@ -125,28 +125,30 @@ class Provision(Document):
 						GROUP BY v.employee) AS w) AS y 
 			""", {"fiscal_year":self.fiscal_year}, as_dict=1
 		)
-
+		
 		for i in liste:
-			if i:
-				self.append(
-						"ratio",
-						{
-							"employee": i.employee,
-							"janvier": i.ratio01,
-							"fevrier": i.ratio02,
-							"mars": i.ratio03,
-							"avril": i.ratio04,
-							"mai": i.ratio05,
-							"juin": i.ratio06,
-							"juillet": i.ratio07,
-							"aout": i.ratio08,
-							"septembre": i.ratio09,
-							"octobre": i.ratio10,
-							"novembre": i.ratio11,
-							"decembre": i.ratio12,
-							"total": i.ratio_total
-						}
-					)
+			self.append(
+					"ratio",
+					{
+						"employee": i.employee,
+						"janvier": i.ratio01,
+						"fevrier": i.ratio02,
+						"mars": i.ratio03,
+						"avril": i.ratio04,
+						"mai": i.ratio05,
+						"juin": i.ratio06,
+						"juillet": i.ratio07,
+						"aout": i.ratio08,
+						"septembre": i.ratio09,
+						"octobre": i.ratio10,
+						"novembre": i.ratio11,
+						"decembre": i.ratio12,
+						"total": i.ratio_total
+					}
+				)
+
+	def before_save(self):
+		self.add_details()
 				
 
 
