@@ -68,7 +68,7 @@ class Provision(Document):
 			)
 
 			for i in liste:
-				frappe.throw(i)
+				frappe.throw(str(i))
 				self.append(
 						"details",
 						{
