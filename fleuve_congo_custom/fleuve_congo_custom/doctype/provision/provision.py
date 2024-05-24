@@ -145,7 +145,7 @@ class Provision(Document):
 						"novembre": i.ratio11,
 						"decembre": i.ratio12,
 						"total": i.ratio_total,
-					},
+					}
 				)
 				
 
