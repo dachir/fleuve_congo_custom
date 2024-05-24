@@ -128,6 +128,7 @@ class Provision(Document):
 			)
 
 			for i in liste:
+				frappe.throw(str(i))
 				self.append(
 						"ratio",
 						{
