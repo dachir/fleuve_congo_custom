@@ -11,7 +11,7 @@ class Provision(Document):
 		#result = frappe.db.sql("""SELECT COUNT(*) as nb  FROM tabEmployee""", as_dict=1)
 		#e = len(str(result[0].nb))
 		#cpt = self.fiscal_year * 10**e
-		self.details.clear()
+		self.ratio.clear()
 
 		if not self.details:
 			liste = frappe.db.sql(
