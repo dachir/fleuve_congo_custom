@@ -119,12 +119,12 @@ class Provision(Document):
 													tabEmployee e 
 													CROSS JOIN `tabPayroll Period` p INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
 												WHERE 
-													YEAR(p.end_date) = %s
+													YEAR(p.end_date) = %(fiscal_year)s
 											) AS t  
 											WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 							) v
 							GROUP BY v.employee) AS w) AS y 
-				""", {"end_date":self.fiscal_year}, as_dict=1
+				""", {"fiscal_year":self.fiscal_year}, as_dict=1
 			)
 
 			for i in liste:
