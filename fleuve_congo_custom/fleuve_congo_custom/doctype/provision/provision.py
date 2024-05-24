@@ -127,26 +127,26 @@ class Provision(Document):
 		)
 
 		for i in liste:
-			#frappe.msgpint(str(i))
-			self.append(
-					"ratio",
-					{
-						"employee": i.employee,
-						"janvier": i.ratio01,
-						"fevrier": i.ratio02,
-						"mars": i.ratio03,
-						"avril": i.ratio04,
-						"mai": i.ratio05,
-						"juin": i.ratio06,
-						"juillet": i.ratio07,
-						"aout": i.ratio08,
-						"septembre": i.ratio09,
-						"octobre": i.ratio10,
-						"novembre": i.ratio11,
-						"decembre": i.ratio12,
-						"total": i.ratio_total,
-					}
-				)
+			if i:
+				self.append(
+						"ratio",
+						{
+							"employee": i.employee,
+							"janvier": i.ratio01,
+							"fevrier": i.ratio02,
+							"mars": i.ratio03,
+							"avril": i.ratio04,
+							"mai": i.ratio05,
+							"juin": i.ratio06,
+							"juillet": i.ratio07,
+							"aout": i.ratio08,
+							"septembre": i.ratio09,
+							"octobre": i.ratio10,
+							"novembre": i.ratio11,
+							"decembre": i.ratio12,
+							"total": i.ratio_total
+						}
+					)
 				
 
 
