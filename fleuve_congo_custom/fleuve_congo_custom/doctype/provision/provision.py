@@ -8,6 +8,7 @@ class Provision(Document):
 
 	def get_provision_details(self, employee=None):
 		employee_name = employee if employee else "%"
+		frappe.msgprint("employee " + employee_name)
 		return frappe.db.sql(
 			"""
 			SELECT y.*,
