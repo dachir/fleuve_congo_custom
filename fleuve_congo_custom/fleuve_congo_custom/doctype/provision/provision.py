@@ -128,7 +128,7 @@ class Provision(Document):
 										WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 						) v
 						GROUP BY v.employee) AS w) AS y 
-			""", {"fiscal_year":self.fiscal_year, "type": self.employment_type}, as_dict=1
+			""", {"fiscal_year":int(self.fiscal_year), "type": self.employment_type}, as_dict=1
 		)
 
 	@frappe.whitelist()
