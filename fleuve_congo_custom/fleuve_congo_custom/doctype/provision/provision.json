@@ -8,11 +8,11 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "payroll_period",
+  "fiscal_year",
+  "section_break_xblxy",
   "start_date",
   "employment_type",
   "column_break_hiksf",
-  "fiscal_year",
   "end_date",
   "leave_type",
   "section_break_j868h",
@@ -25,13 +25,7 @@
  ],
  "fields": [
   {
-   "fieldname": "payroll_period",
-   "fieldtype": "Link",
-   "label": "Payroll Period",
-   "options": "Payroll Period"
-  },
-  {
-   "fetch_from": "payroll_period.start_date",
+   "fetch_from": "fiscal_year.second_year_start_date",
    "fieldname": "start_date",
    "fieldtype": "Date",
    "label": "Start Date"
@@ -41,13 +35,13 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "payroll_period.fiscal_year",
    "fieldname": "fiscal_year",
-   "fieldtype": "Data",
-   "label": "Fiscal Year"
+   "fieldtype": "Link",
+   "label": "Fiscal Year",
+   "options": "Fiscal Year"
   },
   {
-   "fetch_from": "payroll_period.end_date",
+   "fetch_from": "fiscal_year.second_year_end_date",
    "fieldname": "end_date",
    "fieldtype": "Date",
    "label": "End Date"
@@ -102,12 +96,17 @@
    "fieldtype": "Link",
    "label": "Leave Type",
    "options": "Leave Type"
+  },
+  {
+   "fieldname": "section_break_xblxy",
+   "fieldtype": "Section Break",
+   "hide_border": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-25 19:50:16.480060",
+ "modified": "2024-05-25 20:27:18.843932",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision",
