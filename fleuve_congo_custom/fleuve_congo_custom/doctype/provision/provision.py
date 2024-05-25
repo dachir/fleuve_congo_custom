@@ -13,7 +13,7 @@ class Provision(Document):
 			FROM tabProvision p INNER JOIN {tbl} r ON p.name = r.parent
 			WHERE r.employee = %(employee_name)s AND YEAR(p.end_date) = %(fiscal_year)s
 			""".format( tbl=table ), 
-			{"fiscal_year":self.fiscal_year - 1, "employee": employee_name}, as_dict=1
+			{"fiscal_year":int(self.fiscal_year) - 1, "employee": employee_name}, as_dict=1
 		)
 
 
