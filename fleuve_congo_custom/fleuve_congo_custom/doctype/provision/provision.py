@@ -114,7 +114,7 @@ class Provision(Document):
 												tabEmployee e 
 												CROSS JOIN `tabPayroll Period` p INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
 											WHERE 
-												YEAR(p.end_date) = %(fiscal_year)s AND e.name LIKE '%(employee)s'
+												YEAR(p.end_date) = %(fiscal_year)s AND e.name LIKE %(employee)s
 										) AS t  
 										WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 						) v
