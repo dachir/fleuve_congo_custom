@@ -15,7 +15,9 @@
   "end_date",
   "section_break_j868h",
   "ratio",
+  "tab_break_wrmci",
   "conge",
+  "tab_break_wavtr",
   "gratification"
  ],
  "fields": [
@@ -65,14 +67,22 @@
   },
   {
    "fieldname": "gratification",
-   "fieldtype": "Data",
+   "fieldtype": "Table",
    "label": "Gratification",
    "options": "Provision Gratification"
+  },
+  {
+   "fieldname": "tab_break_wrmci",
+   "fieldtype": "Tab Break"
+  },
+  {
+   "fieldname": "tab_break_wavtr",
+   "fieldtype": "Tab Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-25 10:11:50.876702",
+ "modified": "2024-05-25 10:53:59.579579",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision",
