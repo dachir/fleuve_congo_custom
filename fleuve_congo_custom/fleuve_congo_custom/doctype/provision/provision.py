@@ -139,9 +139,6 @@ class Provision(Document):
 
 		liste = self.get_provision_details()
 
-		frappe.throw(liste)
-
-		
 		for i in liste:
 			exist = self.get_provision_ratio(i.employee, '`tabProvision Ratio`', int(self.fiscal_year))
 			if not exist:
