@@ -107,7 +107,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-25 19:08:29.439058",
+ "modified": "2024-05-25 19:50:16.480060",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision",
@@ -124,6 +124,7 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],
