@@ -6,19 +6,18 @@ from frappe.model.document import Document
 
 class Provision(Document):
 
-	def get_provision_ratio(self, employee, table):
+	def get_provision_ratio(self, employee, table, year):
 		return frappe.db.sql(
 			"""
 			SELECT r.*
 			FROM tabProvision p INNER JOIN {tbl} r ON p.name = r.parent
 			WHERE r.employee = %(employee)s AND YEAR(p.end_date) = %(fiscal_year)s
 			""".format( tbl=table ), 
-			{"fiscal_year":int(self.fiscal_year) - 1, "employee": employee}, as_dict=1
+			{"fiscal_year":int(year), "employee": employee}, as_dict=1
 		)
 
 
-	def get_provision_details(self, employee=None):
-		employee_name = employee if employee else "%"
+	def get_provision_details(self):
 		return frappe.db.sql(
 			"""
 			SELECT y.*,
@@ -124,12 +123,12 @@ class Provision(Document):
 												tabEmployee e 
 												CROSS JOIN `tabPayroll Period` p INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
 											WHERE 
-												YEAR(p.end_date) = %(fiscal_year)s AND e.name LIKE %(employee)s
+												YEAR(p.end_date) = %(fiscal_year)s AND e.employment_type = %(type)s
 										) AS t  
 										WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 						) v
 						GROUP BY v.employee) AS w) AS y 
-			""", {"fiscal_year":self.fiscal_year, "employee": employee_name}, as_dict=1
+			""", {"fiscal_year":self.fiscal_year, "type": self.employment_type}, as_dict=1
 		)
 
 	@frappe.whitelist()
@@ -141,90 +140,102 @@ class Provision(Document):
 		liste = self.get_provision_details()
 		
 		for i in liste:
-			ly_total_ratio = 0
-			ly_total_conge = 0
-			ly_total_gratif = 0
+			exist = self.get_provision_ratio(i.employee, '`tabProvision Ratio`', int(self.fiscal_year))
+			if not exist:
+				ly_total_ratio = 0
+				ly_total_conge = 0
+				ly_total_gratif = 0
 
-			details = self.get_provision_ratio(i.employee, '`tabProvision Ratio`')
-			if details:
-				if details[0]:
-					ly_total_ratio = details[0].total if details[0].total else 0
+				details = self.get_provision_ratio(i.employee, '`tabProvision Ratio`', int(self.fiscal_year) - 1)
+				if details:
+					if details[0]:
+						ly_total_ratio = details[0].total if details[0].total else 0
 
-			details = self.get_provision_ratio(i.employee, '`tabProvision Conge`')
-			if details:
-				if details[0]:
-					ly_total_conge = details[0].total if details[0].total else 0
+				details = self.get_provision_ratio(i.employee, '`tabProvision Conge`', int(self.fiscal_year) - 1)
+				if details:
+					if details[0]:
+						ly_total_conge = details[0].total if details[0].total else 0
 
-			details = self.get_provision_ratio(i.employee, '`tabProvision Gratification`')
-			if details:
-				if details[0]:
-					ly_total_gratif = details[0].total if details[0].total else 0
+				details = self.get_provision_ratio(i.employee, '`tabProvision Gratification`', int(self.fiscal_year) - 1)
+				if details:
+					if details[0]:
+						ly_total_gratif = details[0].total if details[0].total else 0
 
-			self.append(
-					"ratio",
-					{
-						"employee": i.employee,
-						"report": ly_total_ratio,
-						"janvier": i.ratio01,
-						"fevrier": i.ratio02,
-						"mars": i.ratio03,
-						"avril": i.ratio04,
-						"mai": i.ratio05,
-						"juin": i.ratio06,
-						"juillet": i.ratio07,
-						"aout": i.ratio08,
-						"septembre": i.ratio09,
-						"octobre": i.ratio10,
-						"novembre": i.ratio11,
-						"decembre": i.ratio12,
-						"total": i.ratio_total + ly_total_ratio,
-					}
-				)
+				self.append(
+						"ratio",
+						{
+							"employee": i.employee,
+							"report": ly_total_ratio,
+							"janvier": i.ratio01,
+							"fevrier": i.ratio02,
+							"mars": i.ratio03,
+							"avril": i.ratio04,
+							"mai": i.ratio05,
+							"juin": i.ratio06,
+							"juillet": i.ratio07,
+							"aout": i.ratio08,
+							"septembre": i.ratio09,
+							"octobre": i.ratio10,
+							"novembre": i.ratio11,
+							"decembre": i.ratio12,
+							"total": i.ratio_total + ly_total_ratio,
+						}
+					)
 
-			self.append(
-					"conge",
-					{
-						"employee": i.employee,
-						"report": ly_total_conge,
-						"janvier": i.salmois01,
-						"fevrier": i.salmois02,
-						"mars": i.salmois03,
-						"avril": i.salmois04,
-						"mai": i.salmois05,
-						"juin": i.salmois06,
-						"juillet": i.salmois07,
-						"aout": i.salmois08,
-						"septembre": i.salmois09,
-						"octobre": i.salmois10,
-						"novembre": i.salmois11,
-						"decembre": i.salmois12,
-						"total": ly_total_conge + i.salmois01 + i.salmois02 + i.salmois03 + i.salmois04 + i.salmois05 + i.salmois06 + i.salmois07 + i.salmois08 + i.salmois09 + i.salmois10 + i.salmois11 + i.salmois12
-					}
-				)
+				self.append(
+						"conge",
+						{
+							"employee": i.employee,
+							"report": ly_total_conge,
+							"janvier": i.salmois01,
+							"fevrier": i.salmois02,
+							"mars": i.salmois03,
+							"avril": i.salmois04,
+							"mai": i.salmois05,
+							"juin": i.salmois06,
+							"juillet": i.salmois07,
+							"aout": i.salmois08,
+							"septembre": i.salmois09,
+							"octobre": i.salmois10,
+							"novembre": i.salmois11,
+							"decembre": i.salmois12,
+							"total": ly_total_conge + i.salmois01 + i.salmois02 + i.salmois03 + i.salmois04 + i.salmois05 + i.salmois06 + i.salmois07 + i.salmois08 + i.salmois09 + i.salmois10 + i.salmois11 + i.salmois12
+						}
+					)
 
-			self.append(
-					"gratification",
-					{
-						"employee": i.employee,
-						"report": ly_total_gratif,
-						"janvier": i.gratif01,
-						"fevrier": i.gratif02,
-						"mars": i.gratif03,
-						"avril": i.gratif04,
-						"mai": i.gratif05,
-						"juin": i.gratif06,
-						"juillet": i.gratif07,
-						"aout": i.gratif08,
-						"septembre": i.gratif09,
-						"octobre": i.gratif10,
-						"novembre": i.gratif11,
-						"decembre": i.gratif12,
-						"total": ly_total_gratif + i.gratif01 + i.gratif02 + i.gratif03 + i.gratif04 + i.gratif05 + i.gratif06 + i.gratif07 + i.gratif08 + i.gratif09 + i.gratif10 + i.gratif11 + i.gratif12 
-					}
-				)
+				self.append(
+						"gratification",
+						{
+							"employee": i.employee,
+							"report": ly_total_gratif,
+							"janvier": i.gratif01,
+							"fevrier": i.gratif02,
+							"mars": i.gratif03,
+							"avril": i.gratif04,
+							"mai": i.gratif05,
+							"juin": i.gratif06,
+							"juillet": i.gratif07,
+							"aout": i.gratif08,
+							"septembre": i.gratif09,
+							"octobre": i.gratif10,
+							"novembre": i.gratif11,
+							"decembre": i.gratif12,
+							"total": ly_total_gratif + i.gratif01 + i.gratif02 + i.gratif03 + i.gratif04 + i.gratif05 + i.gratif06 + i.gratif07 + i.gratif08 + i.gratif09 + i.gratif10 + i.gratif11 + i.gratif12 
+						}
+					)
 
 	def before_save(self):
 		self.add_details()
+
+	def on_submit(self):
+		for i in self.ratio:
+			doc = frappe.new_doc("Leave Allocation")
+			doc.leave_type = self.leave_type
+			doc.employee = i.employee
+			doc.new_leaves_allocated = i.total
+			doc.from_date = self.start_date
+			doc.to_date = self.end_date
+			doc.submit()
 				
 
 
