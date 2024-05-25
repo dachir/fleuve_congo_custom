@@ -165,7 +165,7 @@ class Provision(Document):
 						"octobre": i.salmois10,
 						"novembre": i.salmois11,
 						"decembre": i.salmois12,
-						"total": i.report if i.report else 0 + i.salmois01 + i.salmois02 + i.salmois03 + i.salmois04 + i.salmois05 + i.salmois06 + i.salmois07 + i.salmois08 + i.salmois09 + i.salmois10 + i.salmois11 + i.salmois12 - i.pris if i.pris else 0
+						"total": (i.report if i.report else 0) + i.salmois01 + i.salmois02 + i.salmois03 + i.salmois04 + i.salmois05 + i.salmois06 + i.salmois07 + i.salmois08 + i.salmois09 + i.salmois10 + i.salmois11 + i.salmois12 - (i.pris if i.pris else 0)
 					}
 				)
 
@@ -185,7 +185,7 @@ class Provision(Document):
 						"octobre": i.gratif10,
 						"novembre": i.gratif11,
 						"decembre": i.gratif12,
-						"total": i.report if i.report else 0 + i.gratif01 + i.gratif02 + i.gratif03 + i.gratif04 + i.gratif05 + i.gratif06 + i.gratif07 + i.gratif08 + i.gratif09 + i.gratif10 + i.gratif11 + i.gratif12 - i.pris if i.pris else 0
+						"total": (i.report if i.report else 0) + i.gratif01 + i.gratif02 + i.gratif03 + i.gratif04 + i.gratif05 + i.gratif06 + i.gratif07 + i.gratif08 + i.gratif09 + i.gratif10 + i.gratif11 + i.gratif12 - (i.pris if i.pris else 0)
 					}
 				)
 
