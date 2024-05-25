@@ -62,27 +62,27 @@
   {
    "fieldname": "conge",
    "fieldtype": "Table",
-   "label": "Conge",
    "options": "Provision Conge"
   },
   {
    "fieldname": "gratification",
    "fieldtype": "Table",
-   "label": "Gratification",
    "options": "Provision Gratification"
   },
   {
    "fieldname": "tab_break_wrmci",
-   "fieldtype": "Tab Break"
+   "fieldtype": "Tab Break",
+   "label": "Conge"
   },
   {
    "fieldname": "tab_break_wavtr",
-   "fieldtype": "Tab Break"
+   "fieldtype": "Tab Break",
+   "label": "Gratification"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-25 10:53:59.579579",
+ "modified": "2024-05-25 10:57:16.275736",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision",
