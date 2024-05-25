@@ -6,9 +6,19 @@ from frappe.model.document import Document
 
 class Provision(Document):
 
+	def get_provision_ratio(self, employee, table):
+		return frappe.db.sql(
+			"""
+			SELECT r.*
+			FROM tabProvision p INNER JOIN {tbl} r ON p.name = r.parent
+			WHERE r.employee = %(employee_name)s AND YEAR(p.end_date) = %(fiscal_year)s
+			""".format( tbl=table ), 
+			{"fiscal_year":self.fiscal_year - 1, "employee": employee_name}, as_dict=1
+		)
+
+
 	def get_provision_details(self, employee=None):
 		employee_name = employee if employee else "%"
-		frappe.msgprint("employee " + employee_name)
 		return frappe.db.sql(
 			"""
 			SELECT y.*,
@@ -131,10 +141,30 @@ class Provision(Document):
 		liste = self.get_provision_details()
 		
 		for i in liste:
+			ly_total_ratio = 0
+			ly_total_conge = 0
+			ly_total_gratif = 0
+
+			details = self.get_provision_ratio(i.employee, '`tabProvision Ratio`')
+			if details:
+				if details[0]:
+					ly_total_ratio = details[0].total if details[0].total else 0
+
+			details = self.get_provision_ratio(i.employee, '`tabProvision Conge`')
+			if details:
+				if details[0]:
+					ly_total_conge = details[0].total if details[0].total else 0
+
+			details = self.get_provision_ratio(i.employee, '`tabProvision Gratification`')
+			if details:
+				if details[0]:
+					ly_total_gratif = details[0].total if details[0].total else 0
+
 			self.append(
 					"ratio",
 					{
 						"employee": i.employee,
+						"report": ly_total_ratio,
 						"janvier": i.ratio01,
 						"fevrier": i.ratio02,
 						"mars": i.ratio03,
@@ -147,7 +177,7 @@ class Provision(Document):
 						"octobre": i.ratio10,
 						"novembre": i.ratio11,
 						"decembre": i.ratio12,
-						"total": i.ratio_total
+						"total": i.ratio_total + ly_total_ratio,
 					}
 				)
 
@@ -155,6 +185,7 @@ class Provision(Document):
 					"conge",
 					{
 						"employee": i.employee,
+						"report": ly_total_conge,
 						"janvier": i.salmois01,
 						"fevrier": i.salmois02,
 						"mars": i.salmois03,
@@ -167,7 +198,7 @@ class Provision(Document):
 						"octobre": i.salmois10,
 						"novembre": i.salmois11,
 						"decembre": i.salmois12,
-						"total": (i.report if i.report else 0) + i.salmois01 + i.salmois02 + i.salmois03 + i.salmois04 + i.salmois05 + i.salmois06 + i.salmois07 + i.salmois08 + i.salmois09 + i.salmois10 + i.salmois11 + i.salmois12 - (i.pris if i.pris else 0)
+						"total": ly_total_conge + i.salmois01 + i.salmois02 + i.salmois03 + i.salmois04 + i.salmois05 + i.salmois06 + i.salmois07 + i.salmois08 + i.salmois09 + i.salmois10 + i.salmois11 + i.salmois12
 					}
 				)
 
@@ -175,6 +206,7 @@ class Provision(Document):
 					"gratification",
 					{
 						"employee": i.employee,
+						"report": ly_total_gratif,
 						"janvier": i.gratif01,
 						"fevrier": i.gratif02,
 						"mars": i.gratif03,
@@ -187,7 +219,7 @@ class Provision(Document):
 						"octobre": i.gratif10,
 						"novembre": i.gratif11,
 						"decembre": i.gratif12,
-						"total": (i.report if i.report else 0) + i.gratif01 + i.gratif02 + i.gratif03 + i.gratif04 + i.gratif05 + i.gratif06 + i.gratif07 + i.gratif08 + i.gratif09 + i.gratif10 + i.gratif11 + i.gratif12 - (i.pris if i.pris else 0)
+						"total": ly_total_gratif + i.gratif01 + i.gratif02 + i.gratif03 + i.gratif04 + i.gratif05 + i.gratif06 + i.gratif07 + i.gratif08 + i.gratif09 + i.gratif10 + i.gratif11 + i.gratif12 
 					}
 				)
 
