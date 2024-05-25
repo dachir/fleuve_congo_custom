@@ -7,7 +7,7 @@ from frappe.model.document import Document
 class Provision(Document):
 
 	def get_provision_details(self, employee=None):
-		name = employee if employee else "%"
+		name = employee if employee else "%%"
 		return frappe.db.sql(
 			"""
 			SELECT y.*,
