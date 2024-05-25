@@ -7,7 +7,7 @@ from frappe.model.document import Document
 class Provision(Document):
 
 	def get_provision_details(self, employee=None):
-		name = employee if employee else "%%"
+		employee_name = employee if employee else "%"
 		return frappe.db.sql(
 			"""
 			SELECT y.*,
@@ -118,7 +118,7 @@ class Provision(Document):
 										WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 						) v
 						GROUP BY v.employee) AS w) AS y 
-			""", {"fiscal_year":self.fiscal_year, "employee": name}, as_dict=1
+			""", {"fiscal_year":self.fiscal_year, "employee": employee_name}, as_dict=1
 		)
 
 	@frappe.whitelist()
