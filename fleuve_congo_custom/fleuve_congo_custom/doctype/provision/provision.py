@@ -12,6 +12,8 @@ class Provision(Document):
 		#e = len(str(result[0].nb))
 		#cpt = self.fiscal_year * 10**e
 		self.ratio.clear()
+		self.conge.clear()
+		self.cgratification.clear()
 
 		liste = frappe.db.sql(
 			"""
@@ -144,6 +146,46 @@ class Provision(Document):
 						"novembre": i.ratio11,
 						"decembre": i.ratio12,
 						"total": i.ratio_total
+					}
+				)
+
+			self.append(
+					"conge",
+					{
+						"employee": i.employee,
+						"janvier": i.salmois01,
+						"fevrier": i.salmois02,
+						"mars": i.salmois03,
+						"avril": i.salmois04,
+						"mai": i.salmois05,
+						"juin": i.salmois06,
+						"juillet": i.salmois07,
+						"aout": i.salmois08,
+						"septembre": i.salmois09,
+						"octobre": i.salmois10,
+						"novembre": i.salmois11,
+						"decembre": i.salmois12,
+						"total": i.report if i.report else 0 + i.salmois01 + i.salmois02 + i.salmois03 + i.salmois04 + i.salmois05 + i.salmois06 + i.salmois07 + i.salmois08 + i.salmois09 + i.salmois10 + i.salmois11 + i.salmois12 - i.pris if i.pris else 0
+					}
+				)
+
+			self.append(
+					"gratification",
+					{
+						"employee": i.employee,
+						"janvier": i.13mois01,
+						"fevrier": i.13mois02,
+						"mars": i.13mois03,
+						"avril": i.13mois04,
+						"mai": i.13mois05,
+						"juin": i.13mois06,
+						"juillet": i.13mois07,
+						"aout": i.13mois08,
+						"septembre": i.13mois09,
+						"octobre": i.13mois10,
+						"novembre": i.13mois11,
+						"decembre": i.13mois12,
+						"total": i.report if i.report else 0 + i.13mois01 + i.13mois02 + i.13mois03 + i.13mois04 + i.13mois05 + i.13mois06 + i.13mois07 + i.13mois08 + i.13mois09 + i.13mois10 + i.13mois11 + i.13mois12 - i.pris if i.pris else 0
 					}
 				)
 

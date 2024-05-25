@@ -14,7 +14,9 @@
   "fiscal_year",
   "end_date",
   "section_break_j868h",
-  "ratio"
+  "ratio",
+  "conge",
+  "gratification"
  ],
  "fields": [
   {
@@ -54,11 +56,23 @@
    "fieldtype": "Table",
    "label": "Ratio",
    "options": "Provision Ratio"
+  },
+  {
+   "fieldname": "conge",
+   "fieldtype": "Table",
+   "label": "Conge",
+   "options": "Provision Conge"
+  },
+  {
+   "fieldname": "gratification",
+   "fieldtype": "Data",
+   "label": "Gratification",
+   "options": "Provision Gratification"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-24 12:41:04.211417",
+ "modified": "2024-05-25 10:11:50.876702",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision",
