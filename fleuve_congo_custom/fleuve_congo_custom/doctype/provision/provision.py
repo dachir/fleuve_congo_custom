@@ -6,16 +6,9 @@ from frappe.model.document import Document
 
 class Provision(Document):
 
-	@frappe.whitelist()
-	def add_details(self):
-		#result = frappe.db.sql("""SELECT COUNT(*) as nb  FROM tabEmployee""", as_dict=1)
-		#e = len(str(result[0].nb))
-		#cpt = self.fiscal_year * 10**e
-		self.ratio.clear()
-		self.conge.clear()
-		self.gratification.clear()
-
-		liste = frappe.db.sql(
+	def get_provision_details(self, employee=None):
+		name = employee if employee else "%"
+		return frappe.db.sql(
 			"""
 			SELECT y.*,
 			y.salaire01 / y.ratio_total * y.ratio01 AS `gratif01`,
@@ -120,13 +113,21 @@ class Provision(Document):
 												tabEmployee e 
 												CROSS JOIN `tabPayroll Period` p INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
 											WHERE 
-												YEAR(p.end_date) = %(fiscal_year)s
+												YEAR(p.end_date) = %(fiscal_year)s AND e.name LIKE '%(employee)s'
 										) AS t  
 										WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 						) v
 						GROUP BY v.employee) AS w) AS y 
-			""", {"fiscal_year":self.fiscal_year}, as_dict=1
+			""", {"fiscal_year":self.fiscal_year, "employee": name}, as_dict=1
 		)
+
+	@frappe.whitelist()
+	def add_details(self):
+		self.ratio.clear()
+		self.conge.clear()
+		self.gratification.clear()
+
+		liste = self.get_provision_details()
 		
 		for i in liste:
 			self.append(
