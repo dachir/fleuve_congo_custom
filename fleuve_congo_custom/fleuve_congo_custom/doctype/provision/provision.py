@@ -13,7 +13,7 @@ class Provision(Document):
 		#cpt = self.fiscal_year * 10**e
 		self.ratio.clear()
 		self.conge.clear()
-		self.cgratification.clear()
+		self.gratification.clear()
 
 		liste = frappe.db.sql(
 			"""
