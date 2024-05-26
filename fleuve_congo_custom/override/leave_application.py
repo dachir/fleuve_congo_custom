@@ -5,7 +5,7 @@ from frappe import _
 
 class CustomLeaveApplication(LeaveApplication):
 	def before_save(self):
-		if cash_collected :
+		if self.cash_collected :
 			total_jours = 0
 			montant = 0.0
 
