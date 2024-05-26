@@ -25,3 +25,13 @@ class CustomSalarySlip(SalarySlip):
 					WHERE r.employee = %(employee)s AND %(to_date)s BETWEEN p.start_date AND end_date
 					""", {"employee": self.employee, "to_date": self.end_date } 
 				)
+
+	def on_cancel(self):
+		if getdate(self.end_date).month == 12 :
+			frappe.db.sql(
+				"""
+				UPDATE `tabProvision Gratification` r INNER JOIN  tabProvision p ON p.name = r.parent
+				SET r.pris =0, r.total = r.report + r.janvier + r.fevrier + r.mars + r.avril + r.mai + r.juin + r.juillet + r.aout + r.septembre + r.octobre + r.novembre + r.decembre
+				WHERE r.employee = %(employee)s AND %(to_date)s BETWEEN p.start_date AND end_date
+				""", {"employee": self.employee, "to_date": self.end_date } 
+			)

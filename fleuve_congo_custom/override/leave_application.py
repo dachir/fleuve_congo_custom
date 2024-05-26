@@ -41,7 +41,7 @@ class CustomLeaveApplication(LeaveApplication):
 		frappe.db.sql(
 			"""
 			UPDATE `tabProvision Ratio` r INNER JOIN  tabProvision p ON p.name = r.parent
-			SET r.pris =%(pris)s, r.total = r.total - %(pris)s
+			SET r.pris =r.pris + %(pris)s, r.total = r.total - %(pris)s
 			WHERE r.employee = %(employee)s AND %(to_date)s BETWEEN p.start_date AND end_date
 			""", {"pris": int(self.total_leave_days), "employee": self.employee, "to_date": self.to_date } 
 		)
@@ -49,7 +49,24 @@ class CustomLeaveApplication(LeaveApplication):
 		frappe.db.sql(
 			"""
 			UPDATE `tabProvision Conge` r INNER JOIN  tabProvision p ON p.name = r.parent
-			SET r.pris =%(pris)s, r.total = r.total - %(pris)s
+			SET r.pris = r.pris + %(pris)s, r.total = r.total - %(pris)s
+			WHERE r.employee = %(employee)s AND %(to_date)s BETWEEN p.start_date AND end_date
+			""", {"pris": flt(self.amount), "employee": self.employee, "to_date": self.to_date } 
+		)
+
+	def on_cancel(self):
+		frappe.db.sql(
+			"""
+			UPDATE `tabProvision Ratio` r INNER JOIN  tabProvision p ON p.name = r.parent
+			SET r.pris = r.pris - %(pris)s, r.total = r.total + %(pris)s
+			WHERE r.employee = %(employee)s AND %(to_date)s BETWEEN p.start_date AND end_date
+			""", {"pris": int(self.total_leave_days), "employee": self.employee, "to_date": self.to_date } 
+		)
+		#calculer le valeur des congés à prendre à afficher sur leaves application
+		frappe.db.sql(
+			"""
+			UPDATE `tabProvision Conge` r INNER JOIN  tabProvision p ON p.name = r.parent
+			SET r.pris =r.pris - %(pris)s, r.total = r.total + %(pris)s
 			WHERE r.employee = %(employee)s AND %(to_date)s BETWEEN p.start_date AND end_date
 			""", {"pris": flt(self.amount), "employee": self.employee, "to_date": self.to_date } 
 		)
