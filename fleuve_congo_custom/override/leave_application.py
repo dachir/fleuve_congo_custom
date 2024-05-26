@@ -36,9 +36,7 @@ class CustomLeaveApplication(LeaveApplication):
 					else:
 						self.amount = montant
 
-
-
-    def on_submit(self):
+	def on_submit(self):
 		frappe.db.sql(
 			"""
 			UPDATE `tabProvision Ratio` r INNER JOIN  tabProvision p ON p.name = r.parent
@@ -54,5 +52,3 @@ class CustomLeaveApplication(LeaveApplication):
 			WHERE r.employee = %(employee) AND %(to_date)s BETWEEN p.start_date AND end_date
 			""", {"pris": flt(self.amount, "employee": self.employee, "to_date": self.to_date } 
 		)
-
-    
