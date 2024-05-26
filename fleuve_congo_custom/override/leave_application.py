@@ -1,6 +1,7 @@
 from hrms.hr.doctype.leave_application.leave_application import LeaveApplication
 import frappe
 from frappe import _
+from frappe.utils import getdate
 #from fleuve_congo_custom.fleuve_congo_custom.doctype.provision.provision import get_provision_ratio
 
 class CustomLeaveApplication(LeaveApplication):
@@ -15,7 +16,7 @@ class CustomLeaveApplication(LeaveApplication):
 				FROM tabProvision p INNER JOIN `tabProvision Ratio` r ON p.name = r.parent
 				WHERE r.employee = %(employee)s AND YEAR(p.end_date) = %(fiscal_year)s
 				""", 
-				{"fiscal_year":int(self.to_date.year), "employee": self.employee}, as_dict=1
+				{"fiscal_year":int(getdate(self.to_date).year), "employee": self.employee}, as_dict=1
 			)
 			if prov:
 				total_jours = prov[0].total
@@ -26,7 +27,7 @@ class CustomLeaveApplication(LeaveApplication):
 					FROM tabProvision p INNER JOIN `tabProvision Conge` r ON p.name = r.parent
 					WHERE r.employee = %(employee)s AND YEAR(p.end_date) = %(fiscal_year)s
 					""", 
-					{"fiscal_year":int(self.to_date.year), "employee": self.employee}, as_dict=1
+					{"fiscal_year":int(getdate(self.to_date).year), "employee": self.employee}, as_dict=1
 				)
 				montant = prov[0].total
 
