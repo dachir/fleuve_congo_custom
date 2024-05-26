@@ -50,6 +50,6 @@ class CustomLeaveApplication(LeaveApplication):
 			"""
 			UPDATE `tabProvision Conge` r INNER JOIN  tabProvision p ON p.name = r.parent
 			SET r.pris =%(pris)s, r.total = r.total - %(pris)s
-			WHERE r.employee = %(employee) AND %(to_date)s BETWEEN p.start_date AND end_date
+			WHERE r.employee = %(employee)s AND %(to_date)s BETWEEN p.start_date AND end_date
 			""", {"pris": flt(self.amount), "employee": self.employee, "to_date": self.to_date } 
 		)
