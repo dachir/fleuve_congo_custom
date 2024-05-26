@@ -1,7 +1,7 @@
 from hrms.hr.doctype.leave_application.leave_application import LeaveApplication
 import frappe
 from frappe import _
-from frappe.utils import getdate
+from frappe.utils import getdate, flt
 #from fleuve_congo_custom.fleuve_congo_custom.doctype.provision.provision import get_provision_ratio
 
 class CustomLeaveApplication(LeaveApplication):
