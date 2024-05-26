@@ -1,9 +1,9 @@
 from . import __version__ as app_version
 
 app_name = "fleuve_congo_custom"
-app_title = "Fleuve Congo Custom"
+app_title = "Fleuve Congo Custom Custom"
 app_publisher = "Kossivi Amouzou"
-app_description = "Fleuve Congo Customization"
+app_description = "Fleuve Congo Custom Customization"
 app_email = "dodziamouzou@gmail.com"
 app_license = "MIT"
 
@@ -94,10 +94,9 @@ app_license = "MIT"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
-# }
-
+override_doctype_class = {
+    "Leave Application": "fleuve_congo_custom.override.leave_application.CustomLeaveApplication",
+}
 # Document Events
 # ---------------
 # Hook on document methods and events
@@ -199,3 +198,10 @@ app_license = "MIT"
 # auth_hooks = [
 #	"fleuve_congo_custom.auth.validate"
 # ]
+
+
+fixtures = [
+    {"dt": "Custom Field", "filters": [["module", "=", "Fleuve Congo Custom"]]},
+    {"dt": "Client Script", "filters": [["enabled", "=", 1],["module", "=", "Fleuve Congo Custom"]]},
+    {"dt": "Server Script", "filters": [["disabled", "=", 0],["module", "=", "Fleuve Congo Custom"]]},
+]
