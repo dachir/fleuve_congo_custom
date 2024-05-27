@@ -243,58 +243,59 @@ def update_provision_details(fiscal_year, emp_name):
 	doc = frappe.get_doc("Provision", {"fiscal_year": int(fiscal_year)})
 	details = doc.get_provision_details(emp_name)
 	if details[0]:
+		d  = details[0]
 		ratio_doc = frappe.get_doc("Provision Ratio", {"employee": emp_name, "parent": doc.name})
 		frappe.db.set_value('Provision Ratio', ratio_doc.name, 	{
-			"janvier": details.ratio01,
-			"fevrier": details.ratio02,
-			"mars": details.ratio03,
-			"avril": details.ratio04,
-			"mai": details.ratio05,
-			"juin": details.ratio06,
-			"juillet": details.ratio07,
-			"aout": details.ratio08,
-			"septembre": details.ratio09,
-			"octobre": details.ratio10,
-			"novembre": details.ratio11,
-			"decembre": details.ratio12,
-			"total": ratio_doc.report + details.ratio01 + details.ratio02 + details.ratio03 + details.ratio04 + details.ratio05 + details.ratio06 + 
-			details.ratio07 + details.ratio08 + details.ratio09 + details.ratio10 + details.ratio11 + details.ratio12 - ratio_doc.pris,
+			"janvier": d.ratio01,
+			"fevrier": d.ratio02,
+			"mars": d.ratio03,
+			"avril": d.ratio04,
+			"mai": d.ratio05,
+			"juin": d.ratio06,
+			"juillet": d.ratio07,
+			"aout": d.ratio08,
+			"septembre": d.ratio09,
+			"octobre": d.ratio10,
+			"novembre": d.ratio11,
+			"decembre": d.ratio12,
+			"total": ratio_doc.report + d.ratio01 + d.ratio02 + d.ratio03 + d.ratio04 + d.ratio05 + d.ratio06 + 
+			d.ratio07 + d.ratio08 + d.ratio09 + d.ratio10 + d.ratio11 + d.ratio12 - ratio_doc.pris,
 		})
 
 		conge_doc = frappe.get_doc("Provision Conge", {"employee": emp_name, "parent": doc.name})
 		frappe.db.set_value('Provision Conge', conge_doc.name, 	{
-			"janvier": details.salmois01,
-			"fevrier": details.salmois02,
-			"mars": details.salmois03,
-			"avril": details.salmois04,
-			"mai": details.salmois05,
-			"juin": details.salmois06,
-			"juillet": details.salmois07,
-			"aout": details.salmois08,
-			"septembre": details.salmois09,
-			"octobre": details.salmois10,
-			"novembre": details.salmois11,
-			"decembre": details.salmois12,
-			"total": conge_doc.report + details.salmois01 + details.salmois02 + details.salmois03 + details.salmois04 + details.salmois05 + details.salmois06 + 
-			details.salmois07 + details.salmois08 + details.salmois09 + details.salmois10 + details.salmois11 + details.salmois12 - conge_doc.pris,
+			"janvier": d.salmois01,
+			"fevrier": d.salmois02,
+			"mars": d.salmois03,
+			"avril": d.salmois04,
+			"mai": d.salmois05,
+			"juin": d.salmois06,
+			"juillet": d.salmois07,
+			"aout": d.salmois08,
+			"septembre": d.salmois09,
+			"octobre": d.salmois10,
+			"novembre": d.salmois11,
+			"decembre": d.salmois12,
+			"total": conge_doc.report + d.salmois01 + d.salmois02 + d.salmois03 + d.salmois04 + d.salmois05 + d.salmois06 + 
+			d.salmois07 + d.salmois08 + d.salmois09 + d.salmois10 + d.salmois11 + d.salmois12 - conge_doc.pris,
 		})
 
 		gratif_doc = frappe.get_doc("Provision Gratification", {"employee": emp_name, "parent": doc.name})
 		frappe.db.set_value('Provision Gratification', gratif_doc.name, 	{
-			"janvier": details.gratif01,
-			"fevrier": details.gratif02,
-			"mars": details.gratif03,
-			"avril": details.gratif04,
-			"mai": details.gratif05,
-			"juin": details.gratif06,
-			"juillet": details.gratif07,
-			"aout": details.gratif08,
-			"septembre": details.gratif09,
-			"octobre": details.gratif10,
-			"novembre": details.gratif11,
-			"decembre": details.gratif12,
-			"total": gratif_doc.report + details.gratif01 + details.gratif02 + details.gratif03 + details.gratif04 + details.gratif05 + details.gratif06 + 
-			details.gratif07 + details.gratif08 + details.gratif09 + details.gratif10 + details.gratif11 + details.gratif12 - gratif_doc.pris,
+			"janvier": d.gratif01,
+			"fevrier": d.gratif02,
+			"mars": d.gratif03,
+			"avril": d.gratif04,
+			"mai": d.gratif05,
+			"juin": d.gratif06,
+			"juillet": d.gratif07,
+			"aout": d.gratif08,
+			"septembre": d.gratif09,
+			"octobre": d.gratif10,
+			"novembre": d.gratif11,
+			"decembre": d.gratif12,
+			"total": gratif_doc.report + d.gratif01 + d.gratif02 + d.gratif03 + d.gratif04 + d.gratif05 + d.gratif06 + 
+			d.gratif07 + d.gratif08 + d.gratif09 + d.gratif10 + d.gratif11 + d.gratif12 - gratif_doc.pris,
 		})
 				
 
