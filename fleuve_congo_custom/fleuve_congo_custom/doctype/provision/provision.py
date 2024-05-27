@@ -237,6 +237,65 @@ class Provision(Document):
 			doc.from_date = self.start_date
 			doc.to_date = self.end_date
 			doc.submit()
+
+@frappe.whitelist()
+def update_provision_details(fiscal_year, emp_name):
+	doc = frappe.get_doc("Provision", {"fiscal_year": int(fiscal_year)})
+	details = doc.get_provision_details(emp_name)
+	if details[0]:
+		ratio_doc = frappe.get_doc("Provision Ratio", {"employee": emp_name, "parent": doc.name})
+		frappe.db.set_value('Provision Ratio', ratio_doc.name, 	{
+			"janvier": details.ratio01,
+			"fevrier": details.ratio02,
+			"mars": details.ratio03,
+			"avril": details.ratio04,
+			"mai": details.ratio05,
+			"juin": details.ratio06,
+			"juillet": details.ratio07,
+			"aout": details.ratio08,
+			"septembre": details.ratio09,
+			"octobre": details.ratio10,
+			"novembre": details.ratio11,
+			"decembre": details.ratio12,
+			"total": ratio_doc.report + details.ratio01 + details.ratio02 + details.ratio03 + details.ratio04 + details.ratio05 + details.ratio06 + 
+			details.ratio07 + details.ratio08 + details.ratio09 + details.ratio10 + details.ratio11 + details.ratio12 - ratio_doc.pris,
+		})
+
+		conge_doc = frappe.get_doc("Provision Conge", {"employee": emp_name, "parent": doc.name})
+		frappe.db.set_value('Provision Conge', conge_doc.name, 	{
+			"janvier": details.salmois01,
+			"fevrier": details.salmois02,
+			"mars": details.salmois03,
+			"avril": details.salmois04,
+			"mai": details.salmois05,
+			"juin": details.salmois06,
+			"juillet": details.salmois07,
+			"aout": details.salmois08,
+			"septembre": details.salmois09,
+			"octobre": details.salmois10,
+			"novembre": details.salmois11,
+			"decembre": details.salmois12,
+			"total": conge_doc.report + details.salmois01 + details.salmois02 + details.salmois03 + details.salmois04 + details.salmois05 + details.salmois06 + 
+			details.salmois07 + details.salmois08 + details.salmois09 + details.salmois10 + details.salmois11 + details.salmois12 - conge_doc.pris,
+		})
+
+		gratif_doc = frappe.get_doc("Provision Gratification", {"employee": emp_name, "parent": doc.name})
+		frappe.db.set_value('Provision Gratification', gratif_doc.name, 	{
+			"janvier": details.gratif01,
+			"fevrier": details.gratif02,
+			"mars": details.gratif03,
+			"avril": details.gratif04,
+			"mai": details.gratif05,
+			"juin": details.gratif06,
+			"juillet": details.gratif07,
+			"aout": details.gratif08,
+			"septembre": details.gratif09,
+			"octobre": details.gratif10,
+			"novembre": details.gratif11,
+			"decembre": details.gratif12,
+			"total": gratif_doc.report + details.gratif01 + details.gratif02 + details.gratif03 + details.gratif04 + details.gratif05 + details.gratif06 + 
+			details.gratif07 + details.gratif08 + details.gratif09 + details.gratif10 + details.gratif11 + details.gratif12 - gratif_doc.pris,
+		})
 				
 
 
