@@ -17,7 +17,8 @@ class Provision(Document):
 		)
 
 
-	def get_provision_details(self):
+	def get_provision_details(self, emp_name = None):
+		employee_name = emp_name if emp_name else "%"
 		return frappe.db.sql(
 			"""
 			SELECT y.*,
@@ -123,12 +124,12 @@ class Provision(Document):
 												tabEmployee e 
 												CROSS JOIN `tabPayroll Period` p INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
 											WHERE 
-												YEAR(p.end_date) = %(fiscal_year)s AND e.employment_type = %(type)s
+												YEAR(p.end_date) = %(fiscal_year)s AND e.employment_type = %(type)s AND e.employee LIKE %(employee_name)s
 										) AS t  
 										WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 						) v
 						GROUP BY v.employee) AS w) AS y 
-			""", {"fiscal_year":int(self.fiscal_year), "type": self.employment_type}, as_dict=1
+			""", {"fiscal_year":int(self.fiscal_year), "type": self.employment_type, "employee_name": employee_name}, as_dict=1
 		)
 
 	@frappe.whitelist()
