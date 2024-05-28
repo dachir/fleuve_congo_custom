@@ -240,67 +240,91 @@ class Provision(Document):
 
 @frappe.whitelist()
 def update_provision_details(fiscal_year, emp_name):
-	doc = frappe.get_doc("Provision", {"fiscal_year": int(fiscal_year)})
-	details = doc.get_provision_details(emp_name)
-	if details[0]:
-		d  = details[0]
-		ratio_doc = frappe.get_doc("Provision Ratio", {"employee": emp_name, "parent": doc.name})
-		frappe.db.set_value('Provision Ratio', ratio_doc.name, 	{
-			"janvier": d.ratio01,
-			"fevrier": d.ratio02,
-			"mars": d.ratio03,
-			"avril": d.ratio04,
-			"mai": d.ratio05,
-			"juin": d.ratio06,
-			"juillet": d.ratio07,
-			"aout": d.ratio08,
-			"septembre": d.ratio09,
-			"octobre": d.ratio10,
-			"novembre": d.ratio11,
-			"decembre": d.ratio12,
-			"total": ratio_doc.report + d.ratio01 + d.ratio02 + d.ratio03 + d.ratio04 + d.ratio05 + d.ratio06 + 
-			d.ratio07 + d.ratio08 + d.ratio09 + d.ratio10 + d.ratio11 + d.ratio12 - ratio_doc.pris,
-		})
+	liste = frappe.db.get_list("Provision", {"fiscal_year": int(fiscal_year)}, ["*"])
+	for i in liste:
+		ratio_list =frappe.db.sql(
+				"""
+				SELECT * 
+				FROM `tabProvision Ratio`
+				WHERE employee = %s AND parent = %s
+				""", (emp_name, i.name)
+			)
+		if len(ratio_list) > 0 :
+			doc = frappe.get_doc("Provision", i.name)
+			details = doc.get_provision_details(emp_name)
+			if details[0]:
+				d  = details[0]
+				#ratio_doc = frappe.get_doc("Provision Ratio", {"employee": emp_name, "parent": doc.name})
+				frappe.db.set_value('Provision Ratio', ratio_list[0].name, 	{
+					"janvier": d.ratio01,
+					"fevrier": d.ratio02,
+					"mars": d.ratio03,
+					"avril": d.ratio04,
+					"mai": d.ratio05,
+					"juin": d.ratio06,
+					"juillet": d.ratio07,
+					"aout": d.ratio08,
+					"septembre": d.ratio09,
+					"octobre": d.ratio10,
+					"novembre": d.ratio11,
+					"decembre": d.ratio12,
+					"total": ratio_list[0].report + d.ratio01 + d.ratio02 + d.ratio03 + d.ratio04 + d.ratio05 + d.ratio06 + 
+					d.ratio07 + d.ratio08 + d.ratio09 + d.ratio10 + d.ratio11 + d.ratio12 - ratio_list[0].pris,
+				})
 
-		conge_doc = frappe.get_doc("Provision Conge", {"employee": emp_name, "parent": doc.name})
-		frappe.db.set_value('Provision Conge', conge_doc.name, 	{
-			"janvier": d.salmois01,
-			"fevrier": d.salmois02,
-			"mars": d.salmois03,
-			"avril": d.salmois04,
-			"mai": d.salmois05,
-			"juin": d.salmois06,
-			"juillet": d.salmois07,
-			"aout": d.salmois08,
-			"septembre": d.salmois09,
-			"octobre": d.salmois10,
-			"novembre": d.salmois11,
-			"decembre": d.salmois12,
-			"total": conge_doc.report + d.salmois01 + d.salmois02 + d.salmois03 + d.salmois04 + d.salmois05 + d.salmois06 + 
-			d.salmois07 + d.salmois08 + d.salmois09 + d.salmois10 + d.salmois11 + d.salmois12 - conge_doc.pris,
-		})
+				conge_list =frappe.db.sql(
+					"""
+					SELECT * 
+					FROM `tabProvision Conge`
+					WHERE employee = %s AND parent = %s
+					""", (emp_name, i.name)
+				)
+				#conge_doc = frappe.get_doc("Provision Conge", {"employee": emp_name, "parent": doc.name})
+				frappe.db.set_value('Provision Conge', conge_list[0].name, 	{
+					"janvier": d.salmois01,
+					"fevrier": d.salmois02,
+					"mars": d.salmois03,
+					"avril": d.salmois04,
+					"mai": d.salmois05,
+					"juin": d.salmois06,
+					"juillet": d.salmois07,
+					"aout": d.salmois08,
+					"septembre": d.salmois09,
+					"octobre": d.salmois10,
+					"novembre": d.salmois11,
+					"decembre": d.salmois12,
+					"total": conge_list[0].report + d.salmois01 + d.salmois02 + d.salmois03 + d.salmois04 + d.salmois05 + d.salmois06 + 
+					d.salmois07 + d.salmois08 + d.salmois09 + d.salmois10 + d.salmois11 + d.salmois12 - conge_list[0].pris,
+				})
 
-		gratif_doc = frappe.get_doc("Provision Gratification", {"employee": emp_name, "parent": doc.name})
-		frappe.db.set_value('Provision Gratification', gratif_doc.name, 	{
-			"janvier": d.gratif01,
-			"fevrier": d.gratif02,
-			"mars": d.gratif03,
-			"avril": d.gratif04,
-			"mai": d.gratif05,
-			"juin": d.gratif06,
-			"juillet": d.gratif07,
-			"aout": d.gratif08,
-			"septembre": d.gratif09,
-			"octobre": d.gratif10,
-			"novembre": d.gratif11,
-			"decembre": d.gratif12,
-			"total": gratif_doc.report + d.gratif01 + d.gratif02 + d.gratif03 + d.gratif04 + d.gratif05 + d.gratif06 + 
-			d.gratif07 + d.gratif08 + d.gratif09 + d.gratif10 + d.gratif11 + d.gratif12 - gratif_doc.pris,
-		})
+				gratif_list =frappe.db.sql(
+					"""
+					SELECT * 
+					FROM `tabProvision Gratification`
+					WHERE employee = %s AND parent = %s
+					""", (emp_name, i.name)
+				)
+				#gratif_doc = frappe.get_doc("Provision Gratification", {"employee": emp_name, "parent": doc.name})
+				frappe.db.set_value('Provision Gratification', gratif_list[0].name, 	{
+					"janvier": d.gratif01,
+					"fevrier": d.gratif02,
+					"mars": d.gratif03,
+					"avril": d.gratif04,
+					"mai": d.gratif05,
+					"juin": d.gratif06,
+					"juillet": d.gratif07,
+					"aout": d.gratif08,
+					"septembre": d.gratif09,
+					"octobre": d.gratif10,
+					"novembre": d.gratif11,
+					"decembre": d.gratif12,
+					"total": gratif_list[0].report + d.gratif01 + d.gratif02 + d.gratif03 + d.gratif04 + d.gratif05 + d.gratif06 + 
+					d.gratif07 + d.gratif08 + d.gratif09 + d.gratif10 + d.gratif11 + d.gratif12 - gratif_list[0].pris,
+				})
 
-		frappe.db.commit()
+				frappe.db.commit()
 
-		return emp_name
+				return emp_name
 	
 				
 
