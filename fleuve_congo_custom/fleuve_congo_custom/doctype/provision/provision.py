@@ -247,7 +247,7 @@ def update_provision_details(fiscal_year, emp_name):
 				SELECT * 
 				FROM `tabProvision Ratio`
 				WHERE employee = %s AND parent = %s
-				""", (emp_name, i.name)
+				""", (emp_name, i.name), as_dict=1
 			)
 		if len(ratio_list) > 0 :
 			doc = frappe.get_doc("Provision", i.name)
@@ -277,7 +277,7 @@ def update_provision_details(fiscal_year, emp_name):
 					SELECT * 
 					FROM `tabProvision Conge`
 					WHERE employee = %s AND parent = %s
-					""", (emp_name, i.name)
+					""", (emp_name, i.name), as_dict=1
 				)
 				#conge_doc = frappe.get_doc("Provision Conge", {"employee": emp_name, "parent": doc.name})
 				frappe.db.set_value('Provision Conge', conge_list[0].name, 	{
@@ -302,7 +302,7 @@ def update_provision_details(fiscal_year, emp_name):
 					SELECT * 
 					FROM `tabProvision Gratification`
 					WHERE employee = %s AND parent = %s
-					""", (emp_name, i.name)
+					""", (emp_name, i.name), as_dict=1
 				)
 				#gratif_doc = frappe.get_doc("Provision Gratification", {"employee": emp_name, "parent": doc.name})
 				frappe.db.set_value('Provision Gratification', gratif_list[0].name, 	{
