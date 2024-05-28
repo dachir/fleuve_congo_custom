@@ -299,6 +299,9 @@ def update_provision_details(fiscal_year, emp_name):
 		})
 
 		frappe.db.commit()
+
+		return emp_name
+	
 				
 
 
