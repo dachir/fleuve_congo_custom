@@ -297,6 +297,8 @@ def update_provision_details(fiscal_year, emp_name):
 			"total": gratif_doc.report + d.gratif01 + d.gratif02 + d.gratif03 + d.gratif04 + d.gratif05 + d.gratif06 + 
 			d.gratif07 + d.gratif08 + d.gratif09 + d.gratif10 + d.gratif11 + d.gratif12 - gratif_doc.pris,
 		})
+
+		frappe.db.commit()
 				
 
 
