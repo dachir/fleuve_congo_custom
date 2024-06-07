@@ -9,12 +9,18 @@
  "engine": "InnoDB",
  "field_order": [
   "fiscal_year",
+  "column_break_oyelb",
+  "scondary_calendar",
   "section_break_xblxy",
   "start_date",
   "employment_type",
+  "first_start",
+  "second_start",
   "column_break_hiksf",
   "end_date",
   "leave_type",
+  "first_end",
+  "second_end",
   "section_break_j868h",
   "ratio",
   "tab_break_wrmci",
@@ -25,7 +31,6 @@
  ],
  "fields": [
   {
-   "fetch_from": "fiscal_year.second_year_start_date",
    "fieldname": "start_date",
    "fieldtype": "Date",
    "label": "Start Date"
@@ -41,7 +46,6 @@
    "options": "Fiscal Year"
   },
   {
-   "fetch_from": "fiscal_year.second_year_end_date",
    "fieldname": "end_date",
    "fieldtype": "Date",
    "label": "End Date"
@@ -101,12 +105,50 @@
    "fieldname": "section_break_xblxy",
    "fieldtype": "Section Break",
    "hide_border": 1
+  },
+  {
+   "fieldname": "column_break_oyelb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "scondary_calendar",
+   "fieldtype": "Check",
+   "label": "Scondary Calendar"
+  },
+  {
+   "fetch_from": "fiscal_year.year_start_date",
+   "fieldname": "first_start",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "First Start"
+  },
+  {
+   "fetch_from": "fiscal_year.second_year_start_date",
+   "fieldname": "second_start",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Second Start"
+  },
+  {
+   "fetch_from": "fiscal_year.year_end_date",
+   "fieldname": "first_end",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "First End"
+  },
+  {
+   "fetch_from": "fiscal_year.second_year_end_date",
+   "fieldname": "second_end",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Second End"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-25 20:27:18.843932",
+ "modified": "2024-06-06 21:19:02.760434",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision",

@@ -5,20 +5,7 @@ import frappe
 from frappe.model.document import Document
 
 class Provision(Document):
-
-	def get_provision_ratio(self, employee, table, year):
-		return frappe.db.sql(
-			"""
-			SELECT r.*
-			FROM tabProvision p INNER JOIN {tbl} r ON p.name = r.parent
-			WHERE r.employee = %(employee)s AND YEAR(p.end_date) = %(fiscal_year)s
-			""".format( tbl=table ), 
-			{"fiscal_year":int(year), "employee": employee}, as_dict=1
-		)
-
-
-	def get_provision_details(self, emp_name = None):
-		employee_name = emp_name if emp_name else "%"
+	def second_calandar_query(self, employee_name):
 		return frappe.db.sql(
 			"""
 			SELECT y.*,
@@ -131,6 +118,148 @@ class Provision(Document):
 						GROUP BY v.employee) AS w) AS y 
 			""", {"fiscal_year":int(self.fiscal_year), "type": self.employment_type, "employee_name": employee_name}, as_dict=1
 		)
+
+	def first_calandar_query(self, employee_name):
+		return frappe.db.sql(
+			"""
+			SELECT y.*,
+			y.salaire01 / y.ratio_total * y.ratio01 AS `gratif01`,
+			y.salaire02 / y.ratio_total * y.ratio02 AS `gratif02`,
+			y.salaire03 / y.ratio_total * y.ratio03 AS `gratif03`,
+			y.salaire04 / y.ratio_total * y.ratio04 AS `gratif04`,
+			y.salaire05 / y.ratio_total * y.ratio05 AS `gratif05`,
+			y.salaire06 / y.ratio_total * y.ratio06 AS `gratif06`,
+			y.salaire07 / y.ratio_total * y.ratio07 AS `gratif07`,
+			y.salaire08 / y.ratio_total * y.ratio08 AS `gratif08`,
+			y.salaire09 / y.ratio_total * y.ratio09 AS `gratif09`,
+			y.salaire10 / y.ratio_total * y.ratio10 AS `gratif10`,
+			y.salaire11 / y.ratio_total * y.ratio11 AS `gratif11`,
+			y.salaire12 / y.ratio_total * y.ratio12 AS `gratif12`,
+
+			y.salaire01 / y.period_day01 * y.ratio01 AS `salmois01`,
+			y.salaire02 / y.period_day02 * y.ratio02 AS `salmois02`,
+			y.salaire03 / y.period_day03 * y.ratio03 AS `salmois03`,
+			y.salaire04 / y.period_day04 * y.ratio04 AS `salmois04`,
+			y.salaire05 / y.period_day05 * y.ratio05 AS `salmois05`,
+			y.salaire06 / y.period_day06 * y.ratio06 AS `salmois06`,
+			y.salaire07 / y.period_day07 * y.ratio07 AS `salmois07`,
+			y.salaire08 / y.period_day08 * y.ratio08 AS `salmois08`,
+			y.salaire09 / y.period_day09 * y.ratio09 AS `salmois09`,
+			y.salaire10 / y.period_day10 * y.ratio10 AS `salmois10`,
+			y.salaire11 / y.period_day11 * y.ratio11 AS `salmois11`,
+			y.salaire12 / y.period_day12 * y.ratio12 AS `salmois12`
+			FROM
+				(SELECT w.*,  
+				ratio01 + ratio02 + ratio03 + ratio04 + ratio05 + ratio06 + ratio07 + ratio08 + ratio09 + ratio10 + ratio11 + ratio12 AS ratio_total
+				FROM(
+					SELECT v.employee,
+					SUM(CASE WHEN v.mois = 1 THEN new_rate ELSE 0 END) AS `ratio01`,
+					SUM(CASE WHEN v.mois = 2 THEN new_rate ELSE 0 END) AS `ratio02`,
+					SUM(CASE WHEN v.mois = 3 THEN new_rate ELSE 0 END) AS `ratio03`,
+					SUM(CASE WHEN v.mois = 4 THEN new_rate ELSE 0 END) AS `ratio04`,
+					SUM(CASE WHEN v.mois = 5 THEN new_rate ELSE 0 END) AS `ratio05`,
+					SUM(CASE WHEN v.mois = 6 THEN new_rate ELSE 0 END) AS `ratio06`,
+					SUM(CASE WHEN v.mois = 7 THEN new_rate ELSE 0 END) AS `ratio07`,
+					SUM(CASE WHEN v.mois = 8 THEN new_rate ELSE 0 END) AS `ratio08`,
+					SUM(CASE WHEN v.mois = 9 THEN new_rate ELSE 0 END) AS `ratio09`,
+					SUM(CASE WHEN v.mois = 10 THEN new_rate ELSE 0 END) AS `ratio10`,
+					SUM(CASE WHEN v.mois = 11 THEN new_rate ELSE 0 END) AS `ratio11`,
+					SUM(CASE WHEN v.mois = 12 THEN new_rate ELSE 0 END) AS `ratio12`,
+					
+					SUM(CASE WHEN v.mois = 1 THEN salaire ELSE 0 END) AS `salaire01`,
+					SUM(CASE WHEN v.mois = 2 THEN salaire ELSE 0 END) AS `salaire02`,
+					SUM(CASE WHEN v.mois = 3 THEN salaire ELSE 0 END) AS `salaire03`,
+					SUM(CASE WHEN v.mois = 4 THEN salaire ELSE 0 END) AS `salaire04`,
+					SUM(CASE WHEN v.mois = 5 THEN salaire ELSE 0 END) AS `salaire05`,
+					SUM(CASE WHEN v.mois = 6 THEN salaire ELSE 0 END) AS `salaire06`,
+					SUM(CASE WHEN v.mois = 7 THEN salaire ELSE 0 END) AS `salaire07`,
+					SUM(CASE WHEN v.mois = 8 THEN salaire ELSE 0 END) AS `salaire08`,
+					SUM(CASE WHEN v.mois = 9 THEN salaire ELSE 0 END) AS `salaire09`,
+					SUM(CASE WHEN v.mois = 10 THEN salaire ELSE 0 END) AS `salaire10`,
+					SUM(CASE WHEN v.mois = 11 THEN salaire ELSE 0 END) AS `salaire11`,
+					SUM(CASE WHEN v.mois = 12 THEN salaire ELSE 0 END) AS `salaire12`,
+
+					MAX(CASE WHEN v.mois = 1 THEN v.period_day ELSE 0 END) AS `period_day01`,
+					MAX(CASE WHEN v.mois = 2 THEN v.period_day ELSE 0 END) AS `period_day02`,
+					MAX(CASE WHEN v.mois = 3 THEN v.period_day ELSE 0 END) AS `period_day03`,
+					MAX(CASE WHEN v.mois = 4 THEN v.period_day ELSE 0 END) AS `period_day04`,
+					MAX(CASE WHEN v.mois = 5 THEN v.period_day ELSE 0 END) AS `period_day05`,
+					MAX(CASE WHEN v.mois = 6 THEN v.period_day ELSE 0 END) AS `period_day06`,
+					MAX(CASE WHEN v.mois = 7 THEN v.period_day ELSE 0 END) AS `period_day07`,
+					MAX(CASE WHEN v.mois = 8 THEN v.period_day ELSE 0 END) AS `period_day08`,
+					MAX(CASE WHEN v.mois = 9 THEN v.period_day ELSE 0 END) AS `period_day09`,
+					MAX(CASE WHEN v.mois = 10 THEN v.period_day ELSE 0 END) AS `period_day10`,
+					MAX(CASE WHEN v.mois = 11 THEN v.period_day ELSE 0 END) AS `period_day11`,
+					MAX(CASE WHEN v.mois = 12 THEN v.period_day ELSE 0 END) AS `period_day12`
+					FROM
+						(SELECT t.annee, t.mois, t.date_begin, t.date_end, t.date_join, t.date_debut, t.date_fin, t.date_quit, t.employee,
+											(t.start_period_day / t.period_day * t.rate) + t.years_div_5 AS new_rate, 
+											t.period_day, t.rate, t.salaire, t.start_period_day, t.years_difference, t.years_div_5, t.categorie
+										FROM (
+											SELECT 
+											e.name as employee, 
+											YEAR(p.end_date) AS annee, 
+											MONTH(p.end_date) AS mois,
+											CASE 
+												WHEN p.end_date >= e.date_of_joining THEN  
+													CASE 
+														WHEN e.relieving_date IS NULL THEN 1.5
+														WHEN e.relieving_date > STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') THEN 1.5 
+														ELSE 0 
+													END
+												ELSE 0 
+											END AS rate,
+											DATEDIFF(LAST_DAY(p.end_date), STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d')) + 1 AS period_day,
+											CASE 
+												WHEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(e.date_of_joining), '-', DAY(e.date_of_joining)), '%%Y-%%m-%%d') BETWEEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') AND LAST_DAY(p.end_date) THEN
+													CASE 
+														WHEN YEAR(p.end_date) = YEAR(e.date_of_joining) THEN
+															DATEDIFF(LAST_DAY(p.end_date), STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(e.date_of_joining), '-', DAY(e.date_of_joining)), '%%Y-%%m-%%d')) 
+														ELSE
+															DATEDIFF(LAST_DAY(p.end_date), STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d'))
+													END
+												ELSE 
+													DATEDIFF(LAST_DAY(p.end_date), STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d'))
+											END + 1 AS start_period_day,
+											e.relieving_date AS date_quit,
+											LAST_DAY(p.end_date) AS date_end, 
+											STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') AS date_begin, 
+											e.date_of_joining AS date_join,
+											TIMESTAMPDIFF(YEAR, e.date_of_joining, p.end_date) AS years_difference,
+											CASE 
+												WHEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(e.date_of_joining), '-', DAY(e.date_of_joining)), '%%Y-%%m-%%d') BETWEEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') AND LAST_DAY(p.end_date)
+													AND (e.relieving_date > STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') OR e.relieving_date IS NULL) THEN
+													TIMESTAMPDIFF(YEAR, e.date_of_joining, p.end_date) DIV 5 
+												ELSE 0
+											END AS years_div_5,
+											se.categorie, se.date_debut, se.salaire, IFNULL(se.date_fin, DATE_FORMAT(NOW(),'%%Y-12-31'))  AS date_fin
+											FROM 
+											tabEmployee e 
+											    CROSS JOIN `tabPayroll Period` p 
+											    INNER JOIN `tabSalaire employee` se ON e.name = se.parent 
+											WHERE 
+												YEAR(p.end_date) = %(fiscal_year)s AND e.employment_type = %(type)s AND e.employee LIKE %(employee_name)s
+										) AS t  
+										WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
+						) v
+						GROUP BY v.employee) AS w) AS y
+			""", {"fiscal_year":int(self.fiscal_year), "type": self.employment_type, "employee_name": employee_name}, as_dict=1
+		)
+
+	def get_provision_ratio(self, employee, table, year):
+		return frappe.db.sql(
+			"""
+			SELECT r.*
+			FROM tabProvision p INNER JOIN {tbl} r ON p.name = r.parent
+			WHERE r.employee = %(employee)s AND YEAR(p.end_date) = %(fiscal_year)s
+			""".format( tbl=table ), 
+			{"fiscal_year":int(year), "employee": employee}, as_dict=1
+		)
+
+
+	def get_provision_details(self, emp_name = None):
+		employee_name = emp_name if emp_name else "%"
+		return self.second_calandar_query(employee_name) if self.scondary_calendar == 1 else self.first_calandar_query(employee_name)
 
 	@frappe.whitelist()
 	def add_details(self):
