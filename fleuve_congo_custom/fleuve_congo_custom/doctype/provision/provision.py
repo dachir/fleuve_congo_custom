@@ -547,29 +547,35 @@ def update_provision_details(fiscal_year, emp_name):
 				})
 
 				if d.bonus01:
-					frappe.db.set_value('Provision Ticket', gratif_list[0].name, 	{
-							"employee": d.employee,
-							"report": gratif_list[0].report,
-							"janvier": d.air_ticket01,
-							"fevrier": d.air_ticket02,
-							"mars": d.air_ticket03,
-							"avril": d.air_ticket04,
-							"mai": d.air_ticket05,
-							"juin": d.air_ticket06,
-							"juillet": d.air_ticket07,
-							"aout": d.air_ticket08,
-							"septembre": d.air_ticket09,
-							"octobre": d.air_ticket10,
-							"novembre": d.air_ticket11,
-							"decembre": d.air_ticket12,
-							"total": gratif_list[0].report + d.air_ticket01 + d.air_ticket02 + d.air_ticket03 + d.air_ticket04 + d.air_ticket05 + 
-							d.air_ticket06 + d.air_ticket07 + d.air_ticket08 + d.air_ticket09 + d.air_ticket10 + d.air_ticket11 + d.air_ticket12 
-						}
+					#frappe.db.set_value('Provision Ticket', gratif_list[0].name, 	{
+					#		"employee": d.employee,
+					#		"report": gratif_list[0].report,
+					#		"janvier": d.air_ticket01,
+					#		"fevrier": d.air_ticket02,
+					#		"mars": d.air_ticket03,
+					#		"avril": d.air_ticket04,
+					#		"mai": d.air_ticket05,
+					#		"juin": d.air_ticket06,
+					#		"juillet": d.air_ticket07,
+					#		"aout": d.air_ticket08,
+					#		"septembre": d.air_ticket09,
+					#		"octobre": d.air_ticket10,
+					#		"novembre": d.air_ticket11,
+					#		"decembre": d.air_ticket12,
+					#		"total": gratif_list[0].report + d.air_ticket01 + d.air_ticket02 + d.air_ticket03 + d.air_ticket04 + d.air_ticket05 + 
+					#		d.air_ticket06 + d.air_ticket07 + d.air_ticket08 + d.air_ticket09 + d.air_ticket10 + d.air_ticket11 + d.air_ticket12 
+					#	}
+					#)
+
+					gratif_list =frappe.db.sql(
+						"""
+						SELECT * 
+						FROM `tabProvision Ticket`
+						WHERE employee = %s AND parent = %s
+						""", (emp_name, i.name), as_dict=1
 					)
 
-					self.append(
-						"bonus",
-						{
+					frappe.db.set_value('Provision Ticket', gratif_list[0].name, 	{
 							"employee": d.employee,
 							"report": gratif_list[0].report,
 							"janvier": d.bonus01,
