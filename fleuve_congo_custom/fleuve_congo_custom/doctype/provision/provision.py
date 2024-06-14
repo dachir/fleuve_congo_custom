@@ -136,23 +136,49 @@ class Provision(Document):
 			y.salaire11 / y.ratio_total * y.ratio11 AS `gratif11`,
 			y.salaire12 / y.ratio_total * y.ratio12 AS `gratif12`,
 
-			y.salaire01 / y.period_day01 * y.ratio01 AS `salmois01`,
-			y.salaire02 / y.period_day02 * y.ratio02 AS `salmois02`,
-			y.salaire03 / y.period_day03 * y.ratio03 AS `salmois03`,
-			y.salaire04 / y.period_day04 * y.ratio04 AS `salmois04`,
-			y.salaire05 / y.period_day05 * y.ratio05 AS `salmois05`,
-			y.salaire06 / y.period_day06 * y.ratio06 AS `salmois06`,
-			y.salaire07 / y.period_day07 * y.ratio07 AS `salmois07`,
-			y.salaire08 / y.period_day08 * y.ratio08 AS `salmois08`,
-			y.salaire09 / y.period_day09 * y.ratio09 AS `salmois09`,
-			y.salaire10 / y.period_day10 * y.ratio10 AS `salmois10`,
-			y.salaire11 / y.period_day11 * y.ratio11 AS `salmois11`,
-			y.salaire12 / y.period_day12 * y.ratio12 AS `salmois12`
+			y.salaire01 / 26 * y.ratio01 AS `salmois01`,
+			y.salaire02 / 26 * y.ratio02 AS `salmois02`,
+			y.salaire03 / 26 * y.ratio03 AS `salmois03`,
+			y.salaire04 / 26 * y.ratio04 AS `salmois04`,
+			y.salaire05 / 26 * y.ratio05 AS `salmois05`,
+			y.salaire06 / 26 * y.ratio06 AS `salmois06`,
+			y.salaire07 / 26 * y.ratio07 AS `salmois07`,
+			y.salaire08 / 26 * y.ratio08 AS `salmois08`,
+			y.salaire09 / 26 * y.ratio09 AS `salmois09`,
+			y.salaire10 / 26 * y.ratio10 AS `salmois10`,
+			y.salaire11 / 26 * y.ratio11 AS `salmois11`,
+			y.salaire12 / 26 * y.ratio12 AS `salmois12`,
+
+			y.salaire01 / 26 * y.period_day01 AS `bonus01`,
+			y.salaire02 / 26 * y.period_day02 AS `bonus02`,
+			y.salaire03 / 26 * y.period_day03 AS `bonus03`,
+			y.salaire04 / 26 * y.period_day04 AS `bonus04`,
+			y.salaire05 / 26 * y.period_day05 AS `bonus05`,
+			y.salaire06 / 26 * y.period_day06 AS `bonus06`,
+			y.salaire07 / 26 * y.period_day07 AS `bonus07`,
+			y.salaire08 / 26 * y.period_day08 AS `bonus08`,
+			y.salaire09 / 26 * y.period_day09 AS `bonus09`,
+			y.salaire10 / 26 * y.period_day10 AS `bonus10`,
+			y.salaire11 / 26 * y.period_day11 AS `bonus11`,
+			y.salaire12 / 26 * y.period_day12 AS `bonus12`,
+
+			y.air_ticket * y.ratio_periode01 AS `air_ticket01`,
+			y.air_ticket * y.ratio_periode02 AS `air_ticket02`,
+			y.air_ticket * y.ratio_periode03 AS `air_ticket03`,
+			y.air_ticket * y.ratio_periode04 AS `air_ticket04`,
+			y.air_ticket * y.ratio_periode05 AS `air_ticket05`,
+			y.air_ticket * y.ratio_periode06 AS `air_ticket06`,
+			y.air_ticket * y.ratio_periode07 AS `air_ticket07`,
+			y.air_ticket * y.ratio_periode08 AS `air_ticket08`,
+			y.air_ticket * y.ratio_periode09 AS `air_ticket09`,
+			y.air_ticket * y.ratio_periode10 AS `air_ticket10`,
+			y.air_ticket * y.ratio_periode11 AS `air_ticket11`,
+			y.air_ticket * y.ratio_periode12 AS `air_ticket12`
 			FROM
 				(SELECT w.*,  
 				ratio01 + ratio02 + ratio03 + ratio04 + ratio05 + ratio06 + ratio07 + ratio08 + ratio09 + ratio10 + ratio11 + ratio12 AS ratio_total
 				FROM(
-					SELECT v.employee,
+					SELECT v.employee, v.air_ticket,
 					SUM(CASE WHEN v.mois = 1 THEN new_rate ELSE 0 END) AS `ratio01`,
 					SUM(CASE WHEN v.mois = 2 THEN new_rate ELSE 0 END) AS `ratio02`,
 					SUM(CASE WHEN v.mois = 3 THEN new_rate ELSE 0 END) AS `ratio03`,
@@ -190,21 +216,35 @@ class Provision(Document):
 					MAX(CASE WHEN v.mois = 9 THEN v.period_day ELSE 0 END) AS `period_day09`,
 					MAX(CASE WHEN v.mois = 10 THEN v.period_day ELSE 0 END) AS `period_day10`,
 					MAX(CASE WHEN v.mois = 11 THEN v.period_day ELSE 0 END) AS `period_day11`,
-					MAX(CASE WHEN v.mois = 12 THEN v.period_day ELSE 0 END) AS `period_day12`
+					MAX(CASE WHEN v.mois = 12 THEN v.period_day ELSE 0 END) AS `period_day12`,
+
+					MAX(CASE WHEN v.mois = 1 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode01`,
+					MAX(CASE WHEN v.mois = 2 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode02`,
+					MAX(CASE WHEN v.mois = 3 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode03`,
+					MAX(CASE WHEN v.mois = 4 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode04`,
+					MAX(CASE WHEN v.mois = 5 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode05`,
+					MAX(CASE WHEN v.mois = 6 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode06`,
+					MAX(CASE WHEN v.mois = 7 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode07`,
+					MAX(CASE WHEN v.mois = 8 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode08`,
+					MAX(CASE WHEN v.mois = 9 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode09`,
+					MAX(CASE WHEN v.mois = 10 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode10`,
+					MAX(CASE WHEN v.mois = 11 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode11`,
+					MAX(CASE WHEN v.mois = 12 THEN v.ratio_periode ELSE 0 END) AS `ratio_periode12`
 					FROM
-						(SELECT t.annee, t.mois, t.date_begin, t.date_end, t.date_join, t.date_debut, t.date_fin, t.date_quit, t.employee,
-											(t.start_period_day / t.period_day * t.rate) + t.years_div_5 AS new_rate, 
+						(SELECT t.annee, t.mois, t.date_begin, t.date_end, t.date_join, t.date_debut, t.date_fin, t.date_quit, t.employee, t.air_ticket,
+											(t.start_period_day / t.period_day * t.rate) + t.years_div_5 AS new_rate, t.start_period_day / t.period_day AS ratio_periode,
 											t.period_day, t.rate, t.salaire, t.start_period_day, t.years_difference, t.years_div_5, t.categorie
 										FROM (
 											SELECT 
 											e.name as employee, 
+											e.air_ticket / 12 AS air_ticket,
 											YEAR(p.end_date) AS annee, 
 											MONTH(p.end_date) AS mois,
 											CASE 
 												WHEN p.end_date >= e.date_of_joining THEN  
 													CASE 
-														WHEN e.relieving_date IS NULL THEN 1.5
-														WHEN e.relieving_date > STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') THEN 1.5 
+														WHEN e.relieving_date IS NULL THEN 2.5
+														WHEN e.relieving_date > STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') THEN 2.5 
 														ELSE 0 
 													END
 												ELSE 0 
@@ -242,7 +282,7 @@ class Provision(Document):
 										) AS t  
 										WHERE t.date_begin BETWEEN t.date_debut AND t.date_fin 
 						) v
-						GROUP BY v.employee) AS w) AS y
+						GROUP BY v.employee, v.air_ticket) AS w) AS y
 			""", {"fiscal_year":int(self.fiscal_year), "type": self.employment_type, "employee_name": employee_name}, as_dict=1
 		)
 
@@ -275,6 +315,8 @@ class Provision(Document):
 				ly_total_ratio = 0
 				ly_total_conge = 0
 				ly_total_gratif = 0
+				ly_total_ticket = 0
+				ly_total_bonus = 0
 
 				details = self.get_provision_ratio(i.employee, '`tabProvision Ratio`', int(self.fiscal_year) - 1)
 				if details:
@@ -290,6 +332,16 @@ class Provision(Document):
 				if details:
 					if details[0]:
 						ly_total_gratif = details[0].total if details[0].total else 0
+
+				details = self.get_provision_ratio(i.employee, '`tabProvision Ticket`', int(self.fiscal_year) - 1)
+				if details:
+					if details[0]:
+						ly_total_ticket = details[0].total if details[0].total else 0
+
+				details = self.get_provision_ratio(i.employee, '`tabProvision Bonus`', int(self.fiscal_year) - 1)
+				if details:
+					if details[0]:
+						ly_total_bonus = details[0].total if details[0].total else 0
 
 				self.append(
 						"ratio",
@@ -351,6 +403,49 @@ class Provision(Document):
 							"novembre": i.gratif11,
 							"decembre": i.gratif12,
 							"total": ly_total_gratif + i.gratif01 + i.gratif02 + i.gratif03 + i.gratif04 + i.gratif05 + i.gratif06 + i.gratif07 + i.gratif08 + i.gratif09 + i.gratif10 + i.gratif11 + i.gratif12 
+						}
+					)
+
+				if i.bonus01:
+					self.append(
+						"ticket",
+						{
+							"employee": i.employee,
+							"report": ly_total_ticket,
+							"janvier": i.air_ticket01,
+							"fevrier": i.air_ticket02,
+							"mars": i.air_ticket03,
+							"avril": i.air_ticket04,
+							"mai": i.air_ticket05,
+							"juin": i.air_ticket06,
+							"juillet": i.air_ticket07,
+							"aout": i.air_ticket08,
+							"septembre": i.air_ticket09,
+							"octobre": i.air_ticket10,
+							"novembre": i.air_ticket11,
+							"decembre": i.air_ticket12,
+							"total": ly_total_ticket + i.air_ticket01 + i.air_ticket02 + i.air_ticket03 + i.air_ticket04 + i.air_ticket05 + i.air_ticket06 + i.air_ticket07 + i.air_ticket08 + i.air_ticket09 + i.air_ticket10 + i.air_ticket11 + i.air_ticket12 
+						}
+					)
+
+					self.append(
+						"bonus",
+						{
+							"employee": i.employee,
+							"report": ly_total_bonus,
+							"janvier": i.bonus01,
+							"fevrier": i.bonus02,
+							"mars": i.bonus03,
+							"avril": i.bonus04,
+							"mai": i.bonus05,
+							"juin": i.bonus06,
+							"juillet": i.bonus07,
+							"aout": i.bonus08,
+							"septembre": i.bonus09,
+							"octobre": i.bonus10,
+							"novembre": i.bonus11,
+							"decembre": i.bonus12,
+							"total": ly_total_bonus + i.bonus01 + i.bonus02 + i.bonus03 + i.bonus04 + i.bonus05 + i.bonus06 + i.bonus07 + i.bonus08 + i.bonus09 + i.bonus10 + i.bonus11 + i.bonus12 
 						}
 					)
 
@@ -450,6 +545,49 @@ def update_provision_details(fiscal_year, emp_name):
 					"total": gratif_list[0].report + d.gratif01 + d.gratif02 + d.gratif03 + d.gratif04 + d.gratif05 + d.gratif06 + 
 					d.gratif07 + d.gratif08 + d.gratif09 + d.gratif10 + d.gratif11 + d.gratif12 - gratif_list[0].pris,
 				})
+
+				if d.bonus01:
+					frappe.db.set_value('Provision Ticket', gratif_list[0].name, 	{
+							"employee": d.employee,
+							"report": gratif_list[0].report,
+							"janvier": d.air_ticket01,
+							"fevrier": d.air_ticket02,
+							"mars": d.air_ticket03,
+							"avril": d.air_ticket04,
+							"mai": d.air_ticket05,
+							"juin": d.air_ticket06,
+							"juillet": d.air_ticket07,
+							"aout": d.air_ticket08,
+							"septembre": d.air_ticket09,
+							"octobre": d.air_ticket10,
+							"novembre": d.air_ticket11,
+							"decembre": d.air_ticket12,
+							"total": gratif_list[0].report + d.air_ticket01 + d.air_ticket02 + d.air_ticket03 + d.air_ticket04 + d.air_ticket05 + 
+							d.air_ticket06 + d.air_ticket07 + d.air_ticket08 + d.air_ticket09 + d.air_ticket10 + d.air_ticket11 + d.air_ticket12 
+						}
+					)
+
+					self.append(
+						"bonus",
+						{
+							"employee": d.employee,
+							"report": gratif_list[0].report,
+							"janvier": d.bonus01,
+							"fevrier": d.bonus02,
+							"mars": d.bonus03,
+							"avril": d.bonus04,
+							"mai": d.bonus05,
+							"juin": d.bonus06,
+							"juillet": d.bonus07,
+							"aout": d.bonus08,
+							"septembre": d.bonus09,
+							"octobre": d.bonus10,
+							"novembre": d.bonus11,
+							"decembre": d.bonus12,
+							"total": gratif_list[0].report + d.bonus01 + d.bonus02 + d.bonus03 + d.bonus04 + d.bonus05 + d.bonus06 + 
+							d.bonus07 + d.bonus08 + d.bonus09 + d.bonus10 + d.bonus11 + d.bonus12 
+						}
+					)
 
 				frappe.db.commit()
 
