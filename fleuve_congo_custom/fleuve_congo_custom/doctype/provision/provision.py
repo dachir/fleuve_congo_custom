@@ -339,7 +339,9 @@ class Provision(Document):
 						ly_total_ticket = details[0].total if details[0].total else 0
 
 				details = self.get_provision_ratio(i.employee, '`tabProvision Bonus`', int(self.fiscal_year) - 1)
+				frappe.msgprint('ok')
 				if details:
+					frappe.msgprint('ddddd')
 					if details[0]:
 						ly_total_bonus = details[0].total if details[0].total else 0
 
