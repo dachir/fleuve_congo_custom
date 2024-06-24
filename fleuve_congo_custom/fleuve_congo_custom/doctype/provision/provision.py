@@ -101,7 +101,7 @@ class Provision(Document):
 												e.date_of_joining AS date_join,
 												TIMESTAMPDIFF(YEAR, e.date_of_joining, p.end_date) AS years_difference,
 												CASE 
-													WHEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(e.date_of_joining), '-', DAY(e.date_of_joining)), '%%Y-%%m-%%d') BETWEEN p.start_date AND p.end_date
+													WHEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', CASE WHEN MONTH(e.date_of_joining) = 12 THEN 1 ELSE MONTH(e.date_of_joining) + 1 END, '-', DAY(e.date_of_joining)), '%%Y-%%m-%%d') BETWEEN p.start_date AND p.end_date
 														AND (e.relieving_date > p.start_date OR e.relieving_date IS NULL) THEN
 														TIMESTAMPDIFF(YEAR, e.date_of_joining, p.end_date) DIV 5 
 													ELSE 0
@@ -162,18 +162,18 @@ class Provision(Document):
 			y.salaire11 / 26 * y.period_day11 AS `bonus11`,
 			y.salaire12 / 26 * y.period_day12 AS `bonus12`,
 
-			y.air_ticket * y.ratio_periode01 AS `air_ticket01`,
-			y.air_ticket * y.ratio_periode02 AS `air_ticket02`,
-			y.air_ticket * y.ratio_periode03 AS `air_ticket03`,
-			y.air_ticket * y.ratio_periode04 AS `air_ticket04`,
-			y.air_ticket * y.ratio_periode05 AS `air_ticket05`,
-			y.air_ticket * y.ratio_periode06 AS `air_ticket06`,
-			y.air_ticket * y.ratio_periode07 AS `air_ticket07`,
-			y.air_ticket * y.ratio_periode08 AS `air_ticket08`,
-			y.air_ticket * y.ratio_periode09 AS `air_ticket09`,
-			y.air_ticket * y.ratio_periode10 AS `air_ticket10`,
-			y.air_ticket * y.ratio_periode11 AS `air_ticket11`,
-			y.air_ticket * y.ratio_periode12 AS `air_ticket12`
+			y.air_ticket AS `air_ticket01`,
+			y.air_ticket AS `air_ticket02`,
+			y.air_ticket AS `air_ticket03`,
+			y.air_ticket AS `air_ticket04`,
+			y.air_ticket AS `air_ticket05`,
+			y.air_ticket AS `air_ticket06`,
+			y.air_ticket AS `air_ticket07`,
+			y.air_ticket AS `air_ticket08`,
+			y.air_ticket AS `air_ticket09`,
+			y.air_ticket AS `air_ticket10`,
+			y.air_ticket AS `air_ticket11`,
+			y.air_ticket AS `air_ticket12`
 			FROM
 				(SELECT w.*,  
 				ratio01 + ratio02 + ratio03 + ratio04 + ratio05 + ratio06 + ratio07 + ratio08 + ratio09 + ratio10 + ratio11 + ratio12 AS ratio_total
@@ -267,11 +267,11 @@ class Provision(Document):
 											e.date_of_joining AS date_join,
 											TIMESTAMPDIFF(YEAR, e.date_of_joining, p.end_date) AS years_difference,
 											CASE 
-												WHEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(e.date_of_joining), '-', DAY(e.date_of_joining)), '%%Y-%%m-%%d') BETWEEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') AND LAST_DAY(p.end_date)
-													AND (e.relieving_date > STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(p.end_date), '-', 1), '%%Y-%%m-%%d') OR e.relieving_date IS NULL) THEN
-													TIMESTAMPDIFF(YEAR, e.date_of_joining, p.end_date) DIV 5 
-												ELSE 0
-											END AS years_div_5,
+													WHEN STR_TO_DATE(CONCAT(YEAR(p.end_date), '-', MONTH(e.date_of_joining), '-', DAY(e.date_of_joining)), '%%Y-%%m-%%d') BETWEEN p.start_date AND p.end_date
+														AND (e.relieving_date > p.start_date OR e.relieving_date IS NULL) THEN
+														(TIMESTAMPDIFF(MONTH, e.date_of_joining, STR_TO_DATE(CONCAT(YEAR(p.end_date), '-12-31'), '%%Y-%%m-%%d')) / 12) DIV 5
+													ELSE 0
+												END AS years_div_5,
 											se.categorie, se.date_debut, se.salaire, IFNULL(se.date_fin, DATE_FORMAT(NOW(),'%%Y-12-31'))  AS date_fin
 											FROM 
 											tabEmployee e 
