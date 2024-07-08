@@ -9,6 +9,7 @@
  "field_order": [
   "employee",
   "employee_name",
+  "categorie",
   "salaire",
   "date_embauche",
   "fin_contrat",
@@ -186,12 +187,18 @@
    "options": "Preparation Provision Decompte",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fetch_from": "employee.employee_category_details",
+   "fieldname": "categorie",
+   "fieldtype": "Data",
+   "label": "Categorie"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-08 18:27:47.626669",
+ "modified": "2024-07-08 18:54:04.643437",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Preparation Provision Decompte",
