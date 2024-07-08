@@ -47,7 +47,7 @@ class PreparationProvisionDecompte(Document):
 				days = (date_actuelle_end.day + int(days_in_previous_month)) - date_entree_end.day
 
 			# Affichage des résultats
-			self.ancienneté_details = {years}+", "+{months}+", " +{days}
+			self.ancienneté_details = str(years) + " ans, " +  str(months) + " mois, " + str(days) + "jours"
 
 			#self.anciennete = years
 			self.anciennete = years
