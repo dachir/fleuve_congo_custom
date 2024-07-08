@@ -68,14 +68,14 @@ class PreparationProvisionDecompte(Document):
 			if (emp.categories == "MANŒUVRE" or emp.categories == "SEMI-QUALIFIE" or emp.categories == "HAUTEMENT QUALIFIE"):
 				
 				preavis_days = 7 * years
-				emp.preavis_days = ( preavis_days + 14 ) / 2
+				self.preavis_days = ( preavis_days + 14 ) / 2
 					
 			elif (emp.categories == "AGENT DE MAITRISE"):
 				preavis_days = 9 * years
-				emp.preavis_days = ( preavis_days + 26 ) / 2
+				self.preavis_days = ( preavis_days + 26 ) / 2
 			elif (emp.categories == "CADRE DE COLLABORATION" or emp.categories == "CADRE DE DIRECTION"):
 				preavis_days = 16 * years
-				emp.preavis_days =  (preavis_days + 78) / 2
+				self.preavis_days =  (preavis_days + 78) / 2
 			else :
 				self.anciennete = years
 				
