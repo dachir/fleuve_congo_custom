@@ -8,7 +8,7 @@ class PreparationProvisionDecompte(Document):
 	def before_save(self):
 		if self.employee :
 			emp = frappe.get_doc('Employee',self.employee)
-			self.salaire = employee.salaire_de_base
+			self.salaire = emp.salaire_de_base
 
 			date_actuelle_end = frappe.utils.getdate(self.fin_contrat)
 			date_entree_end = frappe.utils.getdate(self.date_embauche)
