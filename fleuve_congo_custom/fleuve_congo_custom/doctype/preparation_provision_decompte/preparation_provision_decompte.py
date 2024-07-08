@@ -64,7 +64,7 @@ class PreparationProvisionDecompte(Document):
 
 			preavis_days = 0
 
-			frappe.msgprint(emp.categories)
+			frappe.msgprint(emp.name)
 			frappe.msgprint(str(emp.categories in ("CADRE DE DIRECTION")))
 			if (emp.categories == "MANŒUVRE" or emp.categories == "SEMI-QUALIFIE" or emp.categories == "HAUTEMENT QUALIFIE"):
 				preavis_days = 7 * years
