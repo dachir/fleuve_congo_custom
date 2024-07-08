@@ -64,8 +64,7 @@ class PreparationProvisionDecompte(Document):
 
 			preavis_days = 0
 
-			frappe.msgprint(emp.name)
-			frappe.msgprint(emp.categories)
+			frappe.msgprint(self.categorie)
 			if (self.categorie.startswith("MAO") or self.categorie.startswith("MAL") or self.categorie.startswith("T")) :
 				preavis_days = 7 * years
 				self.preavis_days = ( preavis_days + 14 ) / 2
