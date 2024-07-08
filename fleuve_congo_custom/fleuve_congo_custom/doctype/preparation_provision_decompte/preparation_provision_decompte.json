@@ -189,6 +189,7 @@
    "read_only": 1
   },
   {
+   "fetch_from": "employee.employee_category_details",
    "fieldname": "categorie",
    "fieldtype": "Data",
    "label": "Categorie"
@@ -197,7 +198,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-08 19:21:06.999438",
+ "modified": "2024-07-08 20:14:20.742084",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Preparation Provision Decompte",
