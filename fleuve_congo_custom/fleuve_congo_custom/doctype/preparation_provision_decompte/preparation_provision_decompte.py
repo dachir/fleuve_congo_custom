@@ -65,15 +65,15 @@ class PreparationProvisionDecompte(Document):
 			preavis_days = 0
 
 			frappe.msgprint(emp.name)
-			frappe.msgprint(str(emp.categories in ("CADRE DE DIRECTION")))
-			if (emp.categories == "MANŒUVRE" or emp.categories == "SEMI-QUALIFIE" or emp.categories == "HAUTEMENT QUALIFIE"):
+			frappe.msgprint(emp.categories)
+			if (self.categorie.startswith("MAO") or self.categorie.startswith("MAL") or self.categorie.startswith("T")) :
 				preavis_days = 7 * years
 				self.preavis_days = ( preavis_days + 14 ) / 2
 					
-			elif (emp.categories == "AGENT DE MAITRISE"):
+			elif (self.categorie.startswith("MAT")):
 				preavis_days = 9 * years
 				self.preavis_days = ( preavis_days + 26 ) / 2
-			elif (emp.categories == "CADRE DE COLLABORATION" or emp.categories == "CADRE DE DIRECTION"):
+			elif (self.categorie.startswith("CA")):
 				preavis_days = 16 * years
 				self.preavis_days =  (preavis_days + 78) / 2
 			else :
