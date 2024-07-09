@@ -9,7 +9,7 @@ class PreparationProvisionDecompte(Document):
 		if self.employee :
 			emp = frappe.get_doc('Employee',self.employee)
 			self.salaire = emp.salaire_de_base
-			self.categorie = emp.categories
+			#self.categorie = emp.categories
 
 			date_actuelle_end = frappe.utils.getdate(self.fin_contrat)
 			date_entree_end = frappe.utils.getdate(self.date_embauche)
@@ -65,18 +65,19 @@ class PreparationProvisionDecompte(Document):
 
 			preavis_days = 0
 
-			if (self.categorie.startswith("MAO") or self.categorie.startswith("MAL") or self.categorie.startswith("T")) :
-				preavis_days = 7 * years
-				self.preavis_days = ( preavis_days + 14 ) / 2
-					
-			elif (self.categorie.startswith("MAT")):
-				preavis_days = 9 * years
-				self.preavis_days = ( preavis_days + 26 ) / 2
-			elif (self.categorie.startswith("CA")):
-				preavis_days = 16 * years
-				self.preavis_days =  (preavis_days + 78) / 2
-			else :
-				self.anciennete = years
+			if self.categorie :
+				if (self.categorie.startswith("MAO") or self.categorie.startswith("MAL") or self.categorie.startswith("T")) :
+					preavis_days = 7 * years
+					self.preavis_days = ( preavis_days + 14 ) / 2
+						
+				elif (self.categorie.startswith("MAT")):
+					preavis_days = 9 * years
+					self.preavis_days = ( preavis_days + 26 ) / 2
+				elif (self.categorie.startswith("CA")):
+					preavis_days = 16 * years
+					self.preavis_days =  (preavis_days + 78) / 2
+				else :
+					self.anciennete = years
 				
 			self.conge__sur_préavis = (self.preavis_days * 26) / (26 * 12)
 
