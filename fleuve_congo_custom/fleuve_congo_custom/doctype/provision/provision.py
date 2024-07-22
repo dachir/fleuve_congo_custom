@@ -460,7 +460,14 @@ class Provision(Document):
 			doc.new_leaves_allocated = i.total
 			doc.from_date = self.start_date
 			doc.to_date = self.end_date
+			doc.provision = self.name
 			doc.submit()
+
+	def on_cancel(self):
+		liste  = frappe.db.get_list("Leave Allocation", ["name"], {"provision" : self.name})
+		for l in liste:
+			a = frappe.get_doc("Leave Allocation", l.name)
+			a.cancel()
 
 @frappe.whitelist()
 def update_provision_details(fiscal_year, emp_name):
