@@ -59,17 +59,20 @@
    "fieldtype": "Section Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "ratio",
    "fieldtype": "Table",
    "label": "Ratio",
    "options": "Provision Ratio"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "conge",
    "fieldtype": "Table",
    "options": "Provision Conge"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "gratification",
    "fieldtype": "Table",
    "options": "Provision Gratification"
@@ -154,6 +157,7 @@
    "label": "Ticket"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "ticket",
    "fieldtype": "Table",
    "options": "Provision Ticket"
@@ -164,6 +168,7 @@
    "label": "Bonus"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "bonus",
    "fieldtype": "Table",
    "options": "Provision Bonus"
@@ -172,7 +177,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-09 19:04:59.035847",
+ "modified": "2024-09-19 12:07:54.758031",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Provision",

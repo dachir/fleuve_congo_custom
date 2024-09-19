@@ -302,12 +302,12 @@ class Provision(Document):
 		return self.second_calandar_query(employee_name) if self.scondary_calendar == 1 else self.first_calandar_query(employee_name)
 
 	@frappe.whitelist()
-	def add_details(self):
+	def add_details(self, emp_name = None):
 		self.ratio.clear()
 		self.conge.clear()
 		self.gratification.clear()
 
-		liste = self.get_provision_details()
+		liste = self.get_provision_details(emp_name)
 
 		for i in liste:
 			exist = self.get_provision_ratio(i.employee, '`tabProvision Ratio`', int(self.fiscal_year))
@@ -469,20 +469,24 @@ class Provision(Document):
 			a = frappe.get_doc("Leave Allocation", l.name)
 			a.cancel()
 
-@frappe.whitelist()
-def update_provision_details(fiscal_year, emp_name):
-	liste = frappe.db.get_list("Provision", {"fiscal_year": int(fiscal_year)}, ["*"])
-	for i in liste:
+	@frappe.whitelist()
+	def update_provision_details(self, emp_name):
+		exist = frappe.db.exists("Provision Ratio", {"employee": emp_name, "parent": self.name})
+		if not exist:
+			self.add_details(emp_name)
+			return emp_name
+		
+		#for i in liste:
 		ratio_list =frappe.db.sql(
 				"""
 				SELECT * 
 				FROM `tabProvision Ratio`
 				WHERE employee = %s AND parent = %s
-				""", (emp_name, i.name), as_dict=1
+				""", (emp_name, self.name), as_dict=1
 			)
 		if len(ratio_list) > 0 :
-			doc = frappe.get_doc("Provision", i.name)
-			details = doc.get_provision_details(emp_name)
+			#doc = frappe.get_doc("Provision", i.name)
+			details = self.get_provision_details(emp_name)
 			if details[0]:
 				d  = details[0]
 				#ratio_doc = frappe.get_doc("Provision Ratio", {"employee": emp_name, "parent": doc.name})
@@ -508,7 +512,7 @@ def update_provision_details(fiscal_year, emp_name):
 					SELECT * 
 					FROM `tabProvision Conge`
 					WHERE employee = %s AND parent = %s
-					""", (emp_name, i.name), as_dict=1
+					""", (emp_name, self.name), as_dict=1
 				)
 				#conge_doc = frappe.get_doc("Provision Conge", {"employee": emp_name, "parent": doc.name})
 				frappe.db.set_value('Provision Conge', conge_list[0].name, 	{
@@ -533,7 +537,7 @@ def update_provision_details(fiscal_year, emp_name):
 					SELECT * 
 					FROM `tabProvision Gratification`
 					WHERE employee = %s AND parent = %s
-					""", (emp_name, i.name), as_dict=1
+					""", (emp_name, self.name), as_dict=1
 				)
 				#gratif_doc = frappe.get_doc("Provision Gratification", {"employee": emp_name, "parent": doc.name})
 				frappe.db.set_value('Provision Gratification', gratif_list[0].name, 	{
@@ -579,7 +583,7 @@ def update_provision_details(fiscal_year, emp_name):
 						SELECT * 
 						FROM `tabProvision Ticket`
 						WHERE employee = %s AND parent = %s
-						""", (emp_name, i.name), as_dict=1
+						""", (emp_name, self.name), as_dict=1
 					)
 
 					frappe.db.set_value('Provision Ticket', gratif_list[0].name, 	{
@@ -607,5 +611,8 @@ def update_provision_details(fiscal_year, emp_name):
 				return emp_name
 	
 				
-
+@frappe.whitelist()
+def update_provision(doc_name, emp_name):
+	doc = frappe.get_doc("Provision", doc_name)
+	return doc.update_provision_details(emp_name)
 

@@ -72,11 +72,13 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "employee.transport",
    "fieldname": "transport",
    "fieldtype": "Float",
    "label": "Transport"
   },
   {
+   "fetch_from": "employee.logement",
    "fieldname": "logement",
    "fieldtype": "Float",
    "label": "Logement"
@@ -131,6 +133,7 @@
    "label": "% Allocation SC"
   },
   {
+   "fetch_from": "employee.dependent",
    "fieldname": "nbre_enfants",
    "fieldtype": "Int",
    "label": "Nbre Enfants"
@@ -206,7 +209,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-09 18:42:00.898124",
+ "modified": "2024-08-13 16:54:25.675542",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Preparation Provision Decompte",
