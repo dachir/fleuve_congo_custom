@@ -7,13 +7,20 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "p\u00e9riode_d\u00e9compte",
+  "date_debut",
+  "column_break_fkfwj",
+  "date_fin",
+  "nombre_jours",
+  "nombre_annees",
+  "section_break_gytbn",
   "employee",
+  "employee_type",
   "employee_name",
   "categorie",
   "categories",
   "salaire",
   "date_embauche",
-  "fin_contrat",
   "column_break_1pcpe",
   "transport",
   "logement",
@@ -37,6 +44,29 @@
   "conge_sur_pr\u00e9avis",
   "conge_compensatoire",
   "gratification13\u00e8_mois",
+  "section_break_8d9lu",
+  "tauxjour",
+  "salaire_prestation",
+  "salaire_de_nuit",
+  "conge_paye",
+  "column_break_av97a",
+  "jour_feries",
+  "conge_pc",
+  "conge_maladie",
+  "preavis",
+  "gratification",
+  "column_break_n5ehn",
+  "salaire_prime",
+  "brut_imposable",
+  "salaire_logement",
+  "salaire_transport",
+  "allocation_suspension_de_contrat",
+  "column_break_ntz0a",
+  "brut_a_payer",
+  "inss",
+  "ipr",
+  "net_a_payer",
+  "somme",
   "amended_from"
  ],
  "fields": [
@@ -47,7 +77,6 @@
    "options": "Employee"
   },
   {
-   "fetch_from": "employee.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "label": "Employee Name"
@@ -63,22 +92,15 @@
    "label": "D\u00e9but Contrat"
   },
   {
-   "fieldname": "fin_contrat",
-   "fieldtype": "Date",
-   "label": "Fin Contrat"
-  },
-  {
    "fieldname": "column_break_1pcpe",
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "employee.transport",
    "fieldname": "transport",
    "fieldtype": "Float",
    "label": "Transport"
   },
   {
-   "fetch_from": "employee.logement",
    "fieldname": "logement",
    "fieldtype": "Float",
    "label": "Logement"
@@ -114,28 +136,27 @@
   },
   {
    "fieldname": "jours_malade",
-   "fieldtype": "Int",
+   "fieldtype": "Float",
    "label": "Jours Malade"
   },
   {
    "fieldname": "jours_f\u00e9ri\u00e9s",
-   "fieldtype": "Int",
+   "fieldtype": "Float",
    "label": "Jours F\u00e9ri\u00e9s"
   },
   {
    "fieldname": "jours_suspensions",
-   "fieldtype": "Int",
+   "fieldtype": "Float",
    "label": "Jours Suspensions"
   },
   {
    "fieldname": "allocation_sc",
-   "fieldtype": "Percent",
+   "fieldtype": "Float",
    "label": "% Allocation SC"
   },
   {
-   "fetch_from": "employee.dependent",
    "fieldname": "nbre_enfants",
-   "fieldtype": "Int",
+   "fieldtype": "Float",
    "label": "Nbre Enfants"
   },
   {
@@ -144,7 +165,6 @@
    "label": "ALLOCATIONS Fam"
   },
   {
-   "collapsible": 1,
    "fieldname": "valeur_decompte_section",
    "fieldtype": "Section Break",
    "label": "Valeur Decompte"
@@ -184,6 +204,169 @@
    "label": "GRATIFICATION13\u00e8 Mois"
   },
   {
+   "fieldname": "categorie",
+   "fieldtype": "Data",
+   "label": "Categorie"
+  },
+  {
+   "fieldname": "categories",
+   "fieldtype": "Data",
+   "label": "Categories"
+  },
+  {
+   "fieldname": "p\u00e9riode_d\u00e9compte",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "P\u00e9riode D\u00e9compte",
+   "options": "Periode Decompte",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_debut",
+   "fieldtype": "Date",
+   "label": "Date Debut"
+  },
+  {
+   "fieldname": "column_break_fkfwj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_fin",
+   "fieldtype": "Date",
+   "label": "Date Fin"
+  },
+  {
+   "fieldname": "nombre_jours",
+   "fieldtype": "Int",
+   "label": "Nombre Jours"
+  },
+  {
+   "fieldname": "nombre_annees",
+   "fieldtype": "Int",
+   "label": "Nombre Annees"
+  },
+  {
+   "fieldname": "section_break_gytbn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "employee_type",
+   "fieldtype": "Data",
+   "label": "Employee Type"
+  },
+  {
+   "fieldname": "section_break_8d9lu",
+   "fieldtype": "Section Break",
+   "label": "Salaire Decompte"
+  },
+  {
+   "fieldname": "tauxjour",
+   "fieldtype": "Currency",
+   "label": "Taux Jour"
+  },
+  {
+   "fieldname": "salaire_prestation",
+   "fieldtype": "Currency",
+   "label": "Salaire Prestation"
+  },
+  {
+   "fieldname": "salaire_de_nuit",
+   "fieldtype": "Currency",
+   "label": "Salaire de Nuit"
+  },
+  {
+   "fieldname": "conge_paye",
+   "fieldtype": "Currency",
+   "label": "Conge Paye"
+  },
+  {
+   "fieldname": "column_break_av97a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "jour_feries",
+   "fieldtype": "Currency",
+   "label": "Jour Feries"
+  },
+  {
+   "fieldname": "conge_pc",
+   "fieldtype": "Currency",
+   "label": "Conge PC"
+  },
+  {
+   "fieldname": "conge_maladie",
+   "fieldtype": "Currency",
+   "label": "Conge Maladie"
+  },
+  {
+   "fieldname": "preavis",
+   "fieldtype": "Currency",
+   "label": "Preavis"
+  },
+  {
+   "fieldname": "gratification",
+   "fieldtype": "Currency",
+   "label": "Gratification"
+  },
+  {
+   "fieldname": "column_break_n5ehn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "salaire_prime",
+   "fieldtype": "Currency",
+   "label": "Salaire Prime"
+  },
+  {
+   "fieldname": "brut_imposable",
+   "fieldtype": "Currency",
+   "label": "Brut Imposable"
+  },
+  {
+   "fieldname": "salaire_logement",
+   "fieldtype": "Currency",
+   "label": "Salaire Logement "
+  },
+  {
+   "fieldname": "salaire_transport",
+   "fieldtype": "Currency",
+   "label": "Salaire Transport"
+  },
+  {
+   "fieldname": "allocation_suspension_de_contrat",
+   "fieldtype": "Currency",
+   "label": "Allocation Suspension de Contrat"
+  },
+  {
+   "fieldname": "column_break_ntz0a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "brut_a_payer",
+   "fieldtype": "Currency",
+   "label": "Brut a Payer"
+  },
+  {
+   "fieldname": "inss",
+   "fieldtype": "Currency",
+   "label": "Inss"
+  },
+  {
+   "fieldname": "ipr",
+   "fieldtype": "Currency",
+   "label": "Ipr"
+  },
+  {
+   "fieldname": "net_a_payer",
+   "fieldtype": "Currency",
+   "label": "Net a Payer"
+  },
+  {
+   "fieldname": "somme",
+   "fieldtype": "Currency",
+   "label": "Somme"
+  },
+  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -193,23 +376,19 @@
    "read_only": 1
   },
   {
-   "fetch_from": "employee.employee_category_details",
-   "fieldname": "categorie",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Categorie"
-  },
-  {
-   "fetch_from": "employee.employee_category_details",
-   "fieldname": "categories",
-   "fieldtype": "Data",
-   "label": "Categories"
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Preparation Provision Decompte",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-13 16:54:25.675542",
+ "modified": "2024-09-19 16:13:19.008013",
  "modified_by": "Administrator",
  "module": "Fleuve Congo Custom",
  "name": "Preparation Provision Decompte",

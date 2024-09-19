@@ -1,0 +1,132 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-19 15:41:39.738060",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "employee_name",
+  "annee_a",
+  "annee_b",
+  "annee_c",
+  "annee_d",
+  "annee_e",
+  "annee_f",
+  "annee_g",
+  "annee_h",
+  "annee_i",
+  "annee_j",
+  "annee_k",
+  "annee_l",
+  "annee_m",
+  "annee_n",
+  "annee_0",
+  "periode_provision"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Data",
+   "label": "Employee"
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "annee_a",
+   "fieldtype": "Currency",
+   "label": "1\u00e8re Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_b",
+   "fieldtype": "Currency",
+   "label": "2\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_c",
+   "fieldtype": "Currency",
+   "label": "3\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_d",
+   "fieldtype": "Currency",
+   "label": "4\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_e",
+   "fieldtype": "Currency",
+   "label": "5\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_f",
+   "fieldtype": "Currency",
+   "label": "6\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_g",
+   "fieldtype": "Currency",
+   "label": "7\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_h",
+   "fieldtype": "Currency",
+   "label": "8\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_i",
+   "fieldtype": "Currency",
+   "label": "9\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_j",
+   "fieldtype": "Currency",
+   "label": "10\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_k",
+   "fieldtype": "Currency",
+   "label": "11\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_l",
+   "fieldtype": "Currency",
+   "label": "12\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_m",
+   "fieldtype": "Currency",
+   "label": "13\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_n",
+   "fieldtype": "Currency",
+   "label": "14\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "annee_0",
+   "fieldtype": "Currency",
+   "label": "15\u00e8me Ann\u00e9e"
+  },
+  {
+   "fieldname": "periode_provision",
+   "fieldtype": "Data",
+   "label": "Periode Provision"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-09-19 15:41:39.738060",
+ "modified_by": "Administrator",
+ "module": "Fleuve Congo Custom",
+ "name": "Details Annees Decompte",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
